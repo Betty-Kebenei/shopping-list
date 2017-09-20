@@ -1,0 +1,11 @@
+body {
+    background-color: powderblue;
+    margin: 10% 30%;
+    }
+#body {
+    background-color: #95ABC4;
+    padding: 25px 50px;
+}
+.input-element {
+   width: 100%; 
+}
