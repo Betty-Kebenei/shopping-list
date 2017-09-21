@@ -12,26 +12,39 @@
                 <header>
                        <h1>
                            Welcome to shopping list tracker
-                            <input type="button" onclick="" value="Sign Out" style="float:right">
+                            <a href="/logout">
+                                <button type="button" name="button" style="float:right">Sign Out</button>
+                            </a>
                         </h1> 
                     
                 </header>      
             
                 <nav>
                         
-                    <p>My shopping lists:</p>
-                        <ul>
-                            <li><a href="#">shopping list 1</a></li>
-                            <input type="button" onclick="" value="Delete">
-                            <input type="button" onclick="" value="Update">
-                            <li><a href="#">shopping list 2</a></li>
-                            <input type="button" onclick="" value="Delete">
-                            <input type="button" onclick="" value="Update">
-                            <li><a href="#">shopping list 3</a></li>
-                            <input type="button" onclick="" value="Delete">
-                            <input type="button" onclick="" value="Update">
-                        </ul>
-                        <input type="button" onclick="" value="Create a new shopping list">
+                    <h1>My shopping lists:</h1>
+                        {% if shopping_list %}
+                        <ol>
+                            {% for item in shopping_list  %}
+                            <li>
+                                <h3>{{ item.listname }}</h3>
+                                <a href="/">
+                                    <button type="button" name="button">Update</button>
+                                </a>
+                                <a href="/del_shop_list">
+                                    <button type="button" name="button">Delete</button>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ol>
+                            
+                        {% endif %}
+                        <p>Create a new list:</p>
+                        <form action="/shop_list" method="POST">
+                            Shopping_list Name:*
+                            <input type="text" name="listname" required><br>
+                            <input type="submit" value="Create">
+                        </form>
+                    
                 </nav>
                     
                 <article>
@@ -54,8 +67,10 @@
                         </li>
 
                     </ol>
-                    <input type="button" onclick="" value="Add item to the shopping list">
-        
+                    <a href="/shopping_items">
+                        <button type="button" name="button">Add item to the shopping list</button>
+                    </a>
+                    
                     
                 </article>
         </div>
