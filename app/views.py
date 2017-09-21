@@ -1,6 +1,6 @@
 # views.py
 
-from models import User,users
+from models import User,users,Shopping_list,shopping_list
 from flask import render_template, redirect, request,url_for, flash
 
 from app import app
@@ -43,3 +43,24 @@ def signin():
             else:
                 flash('User not found!')
     return render_template("signin.html")
+
+@app.route('/logout')
+def logout():
+    return redirect(url_for('signin'))
+
+
+@app.route('/shop_list',methods=['POST', 'GET'])
+def shop_list():
+    if request.method == 'POST':
+        list_name = request.form['listname']
+
+        s_list = Shopping_list(list_name)
+        shopping_list.append(s_list)
+
+        return render_template("dashboard.html", shopping_list = shopping_list)
+    return render_template("dashboard.html")
+
+#@app.route('/del_shop_list',methods=['POST', 'GET'])
+#def del_shop_list():
+    
+
