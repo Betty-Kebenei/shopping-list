@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/Betty-Kebenei/shopping-list.svg?branch=master)](https://travis-ci.org/Betty-Kebenei/shopping-list)
 # Shopping-list Application
 
 This is a shopping list app that allows users to record and share things they want to spend money on. 
