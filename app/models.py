@@ -34,8 +34,10 @@ class Shopping_list(object):
             return "List deleted."
 
 class Shopping_items(object):
-    def __init__(self,list):
-        self.list=list
+    def __init__(self,itemname,quantity,price):
+        self.itemname=itemname
+        self.quantity=quantity
+        self.price=price
        
     #def add_shopping_item(self):
 
