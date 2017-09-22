@@ -1,32 +1,81 @@
-<html>
+<!DOCTYPE html>
+<htmllang="en">
     
     <head>
-    <title>shopping list</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/dashboard.css') }}" />
+        <title>shopping list</title>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-grid.css') }}" />
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-grid.min.css') }}" />
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-reboot.css') }}" />
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-reboot.min.css') }}" />
+            <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/dashboard.css') }}" /> -->
+            <style>
+            
+
+            body .container-fluid .header, body .container-fluid .footer {
+            background-color:blue;
+            color: white;
+            padding: 25px;
+            margin: 5px;
+            clear: left;
+            }
+        
     
+            body .container-fluid .content{
+            margin: 25px;
+            border: 1px solid black;
+            padding: 25px;
+            align-content: center;
+            min-height: 450px;
+            overflow: hidden;
+            }
+    
+            </style>
+            <script src="{{ url_for('static', filename='js/jquery-3.2.1.js') }}"></script>
+            <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+            <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     </head>
-    
 
     <body> 
-        <div class="container">
-                <header>
-                       <h1>
-                           Welcome to shopping list tracker
+        <div class="container-fluid">
+            <div class="header">
+                <div class="row">
+                        <div class="col-md-10">
+                            <h1>Welcome to shopping list tracker</h1>
+                        </div>
+                        <div class="col-md-2">
                             <a href="/logout">
                                 <button type="button" name="button" style="float:right">Sign Out</button>
-                            </a>
-                        </h1> 
-                    
-                </header>      
+                            </a>       
+                        </div>
+                    </div>
+            </div>
+
             
-                <nav>
-                        
-                    <h1>My shopping lists:</h1>
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>My shopping lists:</h1>
+                        <form action="/shop_list" method="post">
+                            <div class="form-group">
+                                    <label for="create">Create a new list:*</label>
+                                    <input type="text" placeholder="Name of the new shopping list" class="form-control" id="create" name="listname" required>
+                            </div>
+                            <input type="submit" value="Create" style="float: right"/>
+                        </form>
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-md-12">
                         {% if shopping_list %}
                         <ol>
                             {% for item in shopping_list  %}
                             <li>
-                                <h3>{{ item.listname }}</h3>
+                                <h3><a href="">{{ item.listname }}</a></h3>
                                 <a href="/">
                                     <button type="button" name="button">Update</button>
                                 </a>
@@ -35,51 +84,29 @@
                                 </a>
                             </li>
                             {% endfor %}
-                        </ol>
-                            
+                        </ol>  
                         {% endif %}
-                        <p>Create a new list:</p>
-                        <form action="/shop_list" method="POST">
-                            Shopping_list Name:*
-                            <input type="text" name="listname" required><br>
-                            <input type="submit" value="Create">
-                        </form>
-                    
-                </nav>
-                    
-                <article>
-                        
-                    <p>Items in the shopping list 1:</p>
-                    <ol>
-                        <li>Item 1
-                        <input type="button" onclick="" value="Delete">
-                        <input type="button" onclick="" value="Update">
-                        </li>
-        
-                        <li>Item 2
-                        <input type="button" onclick="" value="Delete">
-                        <input type="button" onclick="" value="Update">
-                        </li>
+    
+                    </div>
+                </div>
+            </div>
+            
 
-                        <li>Item 3
-                        <input type="button" onclick="" value="Delete">
-                        <input type="button" onclick="" value="Update">
-                        </li>
+            <div class="footer">
+                <div class="row">
+                    <div class="col-md-12">
+                            Copyright &copy; Betty
+                    </div>
+                </div>
 
-                    </ol>
-                    <a href="/shopping_items">
-                        <button type="button" name="button">Add item to the shopping list</button>
-                    </a>
+            </div>
+            
                     
-                    
-                </article>
         </div>
         
     </body> 
 
-    <footer>
-        Copyright &copy; Betty
-    </footer>
+    
 
             
     
