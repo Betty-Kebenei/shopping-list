@@ -32,8 +32,11 @@
             min-height: 450px;
             overflow: hidden;
             }
+
     
             </style>
+            <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+            
             <script src="{{ url_for('static', filename='js/jquery-3.2.1.js') }}"></script>
             <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
             <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
@@ -45,6 +48,7 @@
                 <div class="row">
                         <div class="col-md-10">
                             <h1>Welcome to shopping list tracker</h1>
+                            
                         </div>
                         <div class="col-md-2">
                             <a href="/logout">
@@ -75,13 +79,53 @@
                         <ol>
                             {% for item in shopping_list  %}
                             <li>
-                                <h3><a href="">{{ item.listname }}</a></h3>
-                                <a href="/">
-                                    <button type="button" name="button">Update</button>
-                                </a>
+                                <hr>
+                                <button type="button" class="btn btn-info" name="Update" style="float:right">Update</button>
+                                <button type="button" class="btn btn-info" name="delete" style="float:right">Delete</button>
+                                    <h2>{{ item.listname }}</h2>
+                                   
+                                <!-- <a href="#">
+                                    <span class="glyphicon glyphicon-edit" style="float:right"></span>
+                                  </a>
                                 <a href="/del_shop_list">
-                                    <button type="button" name="button">Delete</button>
-                                </a>
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a> -->
+                                <!-- items: item name(cols 3)|quantity|price|icons -->
+                                <p>Add items to the list.</p>
+                                <div class="row">
+                                    <div class="col-md-3"><b>Item Name</b></div>
+                                    <div class="col-md-3"><b>Quantity</b></div>
+                                    <div class="col-md-3"><b>Price</b></div>
+                                    <div class="col-md-3"><b>Actions</b></div>
+                                </div>
+                                {% if shopping_items %}
+                                <ol>
+                                    {% for item in shopping_items  %}
+                                    <li>
+                                        <p>{{ item.itemname }}</p>
+                                    </li>
+                                    {% endfor %}
+                                </ol>  
+                                {% endif %}
+                                <form action="/shop_item" method="post">
+                                    <div class="form-group">
+                                        <div class="row">
+                                                <div class="col-md-3">
+                                                    <input type="text" placeholder="Item Name" class="form-control" id="create" name="itemname" required>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" placeholder="Quantity" class="form-control" id="quantity" name="quantity" required>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" placeholder="Price" class="form-control" id="price" name="price" required>
+                                                </div>
+                                                <input type="submit" value="Create Item" style="float: right"/>
+                                        </div>
+                                            
+                                    </div>
+                                    
+                                </form>
+                                
                             </li>
                             {% endfor %}
                         </ol>  
