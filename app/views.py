@@ -1,6 +1,6 @@
 # views.py
 
-from models import User,users,Shopping_list,shopping_list
+from models import User,users,Shopping_list,shopping_list,Shopping_items,shopping_items
 from flask import render_template, redirect, request,url_for, flash
 
 from app import app
@@ -62,5 +62,19 @@ def shop_list():
 
 #@app.route('/del_shop_list',methods=['POST', 'GET'])
 #def del_shop_list():
+
+
+@app.route('/shop_item',methods=['POST', 'GET'])
+def shop_item():
+    if request.method == 'POST':
+        itemname = request.form['itemname']
+        quantity= request.form['quantity']
+        price = request.form['price']
+
+        item = Shopping_items(itemname,quantity,price)
+        shopping_items.append(item)
+
+        return render_template("dashboard.html", shopping_items = shopping_items in shopping_list)
+    return render_template("dashboard.html")
     
 
