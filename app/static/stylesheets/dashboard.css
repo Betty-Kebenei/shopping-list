@@ -1,26 +1,18 @@
-div.container {
-    width: 100%;
-    height: 90%;  
-}
 
-header, footer {
+body .container .header, body .container .footer {
     background-color:blue;
     color: white;
     padding: 25px;
-    margin: 1px;
+    margin: 5px;
     clear: left;
 }
-article {
-    margin-left: 170px;
-    border-left: 5px solid black;
-    height: 70%; 
+    
+
+body .container .content{
+    margin: 25px;
+    border: 1px solid black;
     padding: 25px;
-    overflow: hidden;
-}
-nav {
-    float: left;
-    max-width: 200px;
-    padding: 25px;
-    color: grey;
+    align-content: center;
 }
 
+    
