@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<htmllang="en">
+    
+    <head>
+        <title>Shopping Items</title>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-grid.css') }}" />
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-grid.min.css') }}" />
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-reboot.css') }}" />
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-reboot.min.css') }}" />
+            <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/dashboard.css') }}" /> -->
+            <style>
+            
+
+            body .container-fluid .header, body .container-fluid .footer {
+            background-color:blue;
+            color: white;
+            padding: 25px;
+            margin: 5px;
+            clear: left;
+            }
+        
+    
+            body .container-fluid .content{
+            margin: 25px;
+            border: 1px solid black;
+            padding: 25px;
+            align-content: center;
+            min-height: 450px;
+            overflow: hidden;
+            }
+
+    
+            </style>
+            <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+            
+            <script src="{{ url_for('static', filename='js/jquery-3.2.1.js') }}"></script>
+            <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+            <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    </head>
+
+    <body> 
+        <div class="container-fluid">
+            <div class="header">
+                <div class="row">
+                        <div class="col-md-10">
+                            <h1>Welcome to shopping list tracker</h1>
+                            
+                        </div>
+                        <div class="col-md-2">
+                            <a href="/logout">
+                                <button type="button" name="button" style="float:right">Sign Out</button>
+                            </a>       
+                        </div>
+                    </div>
+            </div>
+
+            
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="/view_lists" method="post">
+                            <div class="form-group">
+                                <input type="submit" value="Go back to the shopping lists"/>  
+                            </div>
+                        </form>
+                        <h1>My shopping items in this shopping list are:</h1>
+                        <div class="row">
+                            <div class="col-md-3"><b>Item Name</b></div>
+                            <div class="col-md-3"><b>Quantity</b></div>
+                            <div class="col-md-3"><b>Price</b></div>
+                            <div class="col-md-3"><b>Actions</b></div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {% if shopping_items %}
+                                <ol>
+                                    {% for item in shopping_items  %}
+                                    <li>
+                                        <div class="row">
+                                            <div class="col-md-3"><p>{{ item.itemname }}</p></div>
+                                            <div class="col-md-3"><p>{{ item.quantity }}</p></div>
+                                            <div class="col-md-3"><p>{{ item.price }}</p></div>
+                                            <div class="col-md-3">
+                                                    <form action="/del_list" method="post">
+                                                        <div class="form-group">
+                                                            <button type="submit" class="btn btn-success" style="float:right">Delete</button>
+                                                        </div>
+                                                    </form>
+                                                    <form action="/update_list" method="post">
+                                                        <div class="form-group">
+                                                            <button type="submit" class="btn btn-success" style="float:right">Update</button> 
+                                                        </div>
+                                                    </form>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </li>
+                                    {% endfor %}
+                                </ol>  
+                                {% endif %}
+                            </div>
+                        </div>
+                        <form action="/shop_item" method="post">
+                            <div class="form-group">
+                                <div class="row">
+                                        <div class="col-md-3">
+                                            <input type="text" placeholder="Item Name" class="form-control" id="create" name="itemname" required>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="text" placeholder="Quantity" class="form-control" id="quantity" name="quantity" required>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="text" placeholder="Price" class="form-control" id="price" name="price" required>
+                                        </div>
+                                        <div class="col-md-3">      
+                                        <button type="submit" class="btn btn-success" style="float:right">Add</button>  
+                                        </div>
+                                </div>
+                                    
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+               
+            </div>
+            
+
+            <div class="footer">
+                <div class="row">
+                    <div class="col-md-12">
+                            Copyright &copy; Betty
+                    </div>
+                </div>
+
+            </div>
+            
+                    
+        </div>
+        
+    </body> 
+
+    
+
+            
+    
+    
+    </html>
+    
