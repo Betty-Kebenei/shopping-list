@@ -52,17 +52,34 @@ def logout():
 @app.route('/shop_list',methods=['POST', 'GET'])
 def shop_list():
     if request.method == 'POST':
-        list_name = request.form['listname']
+        listname = request.form['listname']
 
-        s_list = Shopping_list(list_name)
+        s_list = Shopping_list(listname)
         shopping_list.append(s_list)
 
         return render_template("dashboard.html", shopping_list = shopping_list)
     return render_template("dashboard.html")
 
-#@app.route('/del_shop_list',methods=['POST', 'GET'])
-#def del_shop_list():
+@app.route('/del_list',methods=['POST', 'GET'])
+def del_shop_list():
+    if request.method == 'POST':
+        name = request.form['list_to_delete']
+        if name in shopping_list:
+            shopping_list.remove(name)
+        return redirect(url_for('dashboard'))
+    return render_template("signin.html")
 
+@app.route('/view_lists',methods=['POST', 'GET'])
+def view_listss():
+    if request.method == 'POST':
+        return redirect(url_for('dashboard'))
+    return render_template("shoppingitems.html")
+
+@app.route('/view_items',methods=['POST', 'GET'])
+def view_items():
+    if request.method == 'POST':
+        return redirect(url_for('shop_item'))
+    return render_template("dashboard.html")
 
 @app.route('/shop_item',methods=['POST', 'GET'])
 def shop_item():
@@ -74,7 +91,7 @@ def shop_item():
         item = Shopping_items(itemname,quantity,price)
         shopping_items.append(item)
 
-        return render_template("dashboard.html", shopping_items = shopping_items in shopping_list)
-    return render_template("dashboard.html")
+        return render_template("shoppingitems.html", shopping_items = shopping_items)
+    return render_template("shoppingitems.html")
     
 

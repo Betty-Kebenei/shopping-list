@@ -20,18 +20,6 @@ class Shopping_list(object):
         #self.owner=owner    #owner of the shopping list
         self.listname=listname
 
-    #def create_shopping_list(self,name):
-
-
-    def view_shopping_list(self):
-        return shopping_list
-
-    #def update_shopping_list(self):
-
-    def delete_shopping_list(self,list_to_delete):
-        if list_to_delete in shopping_list:
-            shopping_list.remove(list_to_delete)
-            return "List deleted."
 
 class Shopping_items(object):
     def __init__(self,itemname,quantity,price):
