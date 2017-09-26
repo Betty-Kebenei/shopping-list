@@ -1,36 +1,57 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-<title>Signup for a shopping list account</title>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/style.css') }}" />
+    <title>Signup for a shopping list account</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-grid.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-grid.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-reboot.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-reboot.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/style.css') }}" />
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>   
+    <script src="{{ url_for('static', filename='js/jquery-3.2.1.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 </head>
 
 <body>
-    <div id="header">
-        <h1>Signup for a shopping list account</h1>
-        <h2>Are you already signed up? If so, 
-            <a href="/login">Sign In</a>
-        </h2>
+    <div class="container-fluid">
+        <div class="header">
+            <div class="row">
+                <div class="col-md-12">
+                    <p><b>Please fill in the form below to signup:</b></p>
+                </div>
+            </div>
+        </div>
 
+        <div class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <form action="/signup" method="POST">
+                        <div class="form-group">
+                            <label for="firstname">First Name:*</label>
+                            <input type="text" placeholder="First Name" class="form-control" id="firstname" name="Firstname" required>
+                            <label for="lastname">Last Name:*</label>
+                            <input type="text" placeholder="Last Name" class="form-control" id="lastname" name="Lastname" required>
+                            <label for="username">User Name:*</label>
+                            <input type="text" placeholder="User Name" class="form-control" id="username" name="Username" required>
+                            <label for="email">Email:*</label>
+                            <input type="email" placeholder="Email" class="form-control" id="email" name="email" required>
+                            <label for="password">Password:*</label>
+                            <input type="password" placeholder="Password" class="form-control" id="password" name="psw" required>
+                            <button type="submit" class="btn btn-success" style="float:right">Submit</button>
+                        </div>
+                    </form>
+                    <br><br>
+                    <p><b>Are you already signed up? If so, <a href="/login">Sign In</a></b></p>
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="body">
-        <h2>Please fill in the form below to signup:</h2>
-        <form action="/signup" method="POST">
-            First Name:*<br>
-            <input type="text" name="Firstname" required><br>
-            Last Name:*<br>
-            <input type="text" name="Lastname" required><br>
-            User Name:*<br>
-            <input type="text" name="Username"><br>
-            Email:*<br>
-            <input type="email" name="email" required><br>
-            Password:*<br>
-            <input type="password" name="psw" required><br>
-            <input type="submit" value="submit">
-        </form>
-
-    </div>
-    
 </body>
 
 </html>
