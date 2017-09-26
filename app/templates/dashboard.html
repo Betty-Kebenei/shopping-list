@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<htmllang="en">
+<html lang="en">
     
     <head>
         <title>shopping list</title>
@@ -40,6 +40,24 @@
             <script src="{{ url_for('static', filename='js/jquery-3.2.1.js') }}"></script>
             <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
             <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+            <script>
+                $(document).ready(function() {
+                
+                    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }}
+                
+                    // Delete list
+                    $('.del_shop_list').click(function(event) {
+                      var list_id = $(this).data('id');
+                      var url = $SCRIPT_ROOT + '/shop_list/' + list_id + '/delete';
+                      $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                      }).done(function(data) {
+                        location.reload();
+                      });
+                    });
+                });
+                </script>
     </head>
 
     <body> 
@@ -87,12 +105,14 @@
                             {% for item in shopping_list  %}
                             <li>
                                 <hr>
-                                <form action="/del_list" method="post">
+                                <form action="/shop_list/<list_id>/del" >
                                     <div class="form-group">
-                                        <input type="hidden" name="list_to_delete" value="{{ list_to_delete }}">
-                                        <button type="submit" class="btn btn-success" style="float:right">Delete</button>  
-                                    </div>
+                                        <!-- <input type="hidden" name={{ item.listname }} value="{{ item.listname }}"> -->
+                                        <!-- <button type="submit" class="btn btn-success" style="float:right">Delete</button>   -->
+                                        <button href="#" class="btn btn-primary delete_comment" data-id="{{ item.id }}"  style="float:right">Delete</button>
+                                  </div>
                                 </form>
+                                
                                 <form action="/update_list" method="post">
                                     <div class="form-group">
                                         <input type="hidden" name="list_to_update" value="{{ list_to_update }}">
@@ -102,7 +122,7 @@
                                 <form action="/view_items" method="post">
                                     <div class="form-group">
                                         <input type="hidden" name="list_to_view" value="view">
-                                        <button type="submit" class="btn btn-success" style="float:right">View</button>    
+                                        <button type="submit" class="btn btn-success" style="float:right">Add/View</button>    
                                     </div>
                                 </form>
                                 <p style="font: 100">{{ item.listname }}</p>
