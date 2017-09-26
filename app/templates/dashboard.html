@@ -11,32 +11,8 @@
             <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-grid.min.css') }}" />
             <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-reboot.css') }}" />
             <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-reboot.min.css') }}" />
-            <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/dashboard.css') }}" /> -->
-            <style>
-            
-
-            body .container-fluid .header, body .container-fluid .footer {
-            background-color:blue;
-            color: white;
-            padding: 25px;
-            margin: 5px;
-            clear: left;
-            }
-        
-    
-            body .container-fluid .content{
-            margin: 25px;
-            border: 1px solid black;
-            padding: 25px;
-            align-content: center;
-            min-height: 450px;
-            overflow: hidden;
-            }
-           
-    
-            </style>
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/dashboard.css') }}" />
             <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
-            
             <script src="{{ url_for('static', filename='js/jquery-3.2.1.js') }}"></script>
             <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
             <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
@@ -57,7 +33,7 @@
                       });
                     });
                 });
-                </script>
+            </script>      
     </head>
 
     <body> 
@@ -75,7 +51,6 @@
                         </div>
                     </div>
             </div>
-
             
             <div class="content">
                 <div class="row">
@@ -84,8 +59,14 @@
                         <form action="/shop_list" method="post">
                             <div class="form-group">
                                 <label for="create">Create a new list:*</label>
-                                <input type="text" placeholder="Name of the new shopping list" class="form-control" id="create" name="listname" required>
-                                <button type="submit" class="btn btn-success" style="float:right">Create</button>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <input type="text" placeholder="Name of the new shopping list" class="form-control" id="create" name="listname" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="submit" class="btn btn-success" >Create</button>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>

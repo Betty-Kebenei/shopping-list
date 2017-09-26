@@ -1,18 +1,18 @@
 
-body .container .header, body .container .footer {
+body .container-fluid .header, body .container-fluid .footer {
     background-color:blue;
     color: white;
     padding: 25px;
     margin: 5px;
     clear: left;
-}
-    
+    }
 
-body .container .content{
+
+body .container-fluid .content{
     margin: 25px;
     border: 1px solid black;
     padding: 25px;
     align-content: center;
-}
-
-    
+    min-height: 450px;
+    overflow: hidden;
+    }
