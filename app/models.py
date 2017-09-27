@@ -17,9 +17,12 @@ class Shopping_list(object):
     def __init__(self, listname):
         self.list_id = random.randrange(1, 1000, 1) #number of the shopping_list
         #self.owner=owner    #owner of the shopping list
-        self.listname=listname
+        self.listname = listname
 
-
+    def remove_list(self):
+        if self.list_id in shopping_list:
+            shopping_list.remove(self.list_id,self.listname)
+        
 class Shopping_items(object):
     def __init__(self, itemname, quantity, price):
         self.itemname = itemname

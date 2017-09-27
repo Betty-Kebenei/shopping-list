@@ -1,0 +1,43 @@
+from flask_wtf import Form
+from wtforms import StringField, SubmitField, PasswordField, IntegerField
+from wtforms.validators import Length, Email, InputRequired, DataRequired, Regexp
+
+
+class LoginForm(Form):
+    email = StringField('Email:', validators=[Email(), InputRequired()])
+    password = PasswordField('Password:', validators=[InputRequired()])
+    submit = SubmitField('Log in')
+
+
+class SignupForm(Form):
+    firstname = StringField('First Name:', validators=[Length(3, 50), InputRequired(), DataRequired(), 
+                                                        Regexp("^[A-Za-z_-]+(\s+[A-Za-z_-]+)*$", 0, 
+                                                        'Input should contain [A-Za-z_-] spaces')])
+    lastname = StringField('Last Name:', validators=[Length(3, 50), InputRequired(), DataRequired(), 
+                                                        Regexp("^[A-Za-z_-]+(\s+[A-Za-z_-]+)*$", 0, 
+                                                        'Input should contain [A-Za-z_-] spaces')])                                               
+    username = StringField('User Name:', validators=[Length(3, 50), InputRequired(), DataRequired(), 
+                                                        Regexp("^[A-Za-z0-9_-]+(\s+[A-Za-z0-9_-]+)*$", 0, 
+                                                        'Input should contain [A-Za-z0-9_-] spaces')])
+    email = StringField('Email:', validators=[Email(), InputRequired()])
+    password = PasswordField('Password:', validators=[Length(6, 50), InputRequired()])
+    submit = SubmitField('Sign Up')
+
+
+class S_listForm(Form):
+    listname = StringField('Create a new list:', validators=[Length(3, 50), InputRequired(), DataRequired(), 
+                                                        Regexp("^[A-Za-z0-9_-]+(\s+[A-Za-z0-9_-]+)*$", 0, 
+                                                        'Input should contain [A-Za-z0-9_-] spaces')])
+    submit = SubmitField('Create')
+
+class ItemsForm(Form):
+    itemname = StringField('Item Name', validators=[Length(3, 50), InputRequired(), DataRequired(), 
+                                                        Regexp("^[A-Za-z0-9_-]+(\s+[A-Za-z0-9_-]+)*$", 0, 
+                                                        'Input should contain [A-Za-z0-9_-] spaces')])
+    quantity = StringField('Quantity', validators=[Length(1, 50), InputRequired(), DataRequired(), 
+                                                        Regexp("^[A-Za-z0-9_-]+(\s+[A-Za-z0-9_-]+)*$", 0, 
+                                                        'Input should contain [A-Za-z0-9_-] spaces')])
+    price = IntegerField('Price(ksh)', validators=[Length(1, 50), InputRequired(), DataRequired(), 
+                                                        Regexp("^[0-9]+(\s+[0-9]+)*$", 0, 
+                                                        'Input should contain [0-9] spaces')])
+    submit = SubmitField('Add')
