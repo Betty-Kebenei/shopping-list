@@ -30,14 +30,14 @@
         <div class="content">
             <div class="row">
                 <div class="col-md-12">
-                    <form action="/login" method="POST">
-                        <div class="form-group">
-                            <label for="email">Email:*</label>
-                            <input type="email" placeholder="Email" class="form-control" id="email" name="email" required>
-                            <label for="password">Password:*</label>
-                            <input type="password" placeholder="Password" class="form-control" id="password" name="psw" required>
-                            <button type="submit" class="btn btn-success" style="float:right">Sign In</button>
-                        </div>
+                    {% for error in form.errors%}
+                    {{error}}
+                    {% endfor%}
+                    <form method="POST" action="{{ url_for('signin')}}">
+                    {{form.csrf_token}}
+                    {{form.email.label}} {{form.email(placeholder="Email", class="form-control", id="email")}}
+                    {{form.password.label}}{{form.password(placeholder="Password", class="form-control", id="password")}}
+                    {{form.submit(class="btn btn-success", style="float:right")}}
                     </form>
                     <br><br>
                     <p><b>Don't have an account? <a href="/signup">Sign Up</a></b></p>

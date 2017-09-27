@@ -11,53 +11,11 @@
             <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-grid.min.css') }}" />
             <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-reboot.css') }}" />
             <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-reboot.min.css') }}" />
-            <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/dashboard.css') }}" /> -->
-            <style>
-            
-
-            body .container-fluid .header, body .container-fluid .footer {
-            background-color:blue;
-            color: white;
-            padding: 25px;
-            margin: 5px;
-            clear: left;
-            }
-        
-    
-            body .container-fluid .content{
-            margin: 25px;
-            border: 1px solid black;
-            padding: 25px;
-            align-content: center;
-            min-height: 450px;
-            overflow: hidden;
-            }
-           
-    
-            </style>
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/dashboard.css') }}" />
             <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
-            
             <script src="{{ url_for('static', filename='js/jquery-3.2.1.js') }}"></script>
             <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
-            <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-            <script>
-                $(document).ready(function() {
-                
-                    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }}
-                
-                    // Delete list
-                    $('.del_shop_list').click(function(event) {
-                      var list_id = $(this).data('id');
-                      var url = $SCRIPT_ROOT + '/shop_list/' + list_id + '/delete';
-                      $.ajax({
-                        url: url,
-                        type: 'DELETE',
-                      }).done(function(data) {
-                        location.reload();
-                      });
-                    });
-                });
-                </script>
+            <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>      
     </head>
 
     <body> 
@@ -75,69 +33,46 @@
                         </div>
                     </div>
             </div>
-
             
             <div class="content">
                 <div class="row">
                     <div class="col-md-12">
                         <h1>My shopping lists:</h1>
-                        <form action="/shop_list" method="post">
-                            <div class="form-group">
-                                <label for="create">Create a new list:*</label>
-                                <input type="text" placeholder="Name of the new shopping list" class="form-control" id="create" name="listname" required>
-                                <button type="submit" class="btn btn-success" style="float:right">Create</button>
-                            </div>
-                        </form>
+                        {% for error in form.errors%}
+                        {{error}}
+                        {% endfor%}
+                        <form method="POST" action="{{ url_for('shop_list')}}">
+                        {{form.csrf_token}}
+                        <div class="row">
+                            <div class="col-md-2">{{form.listname.label}}</div>
+                            <div class="col-md-6">{{form.listname(placeholder="Name of the new shopping list", class="form-control", id="create")}}</div>
+                            <div class="col-md-4">{{form.submit(class="btn btn-success")}}</div>
+                        </div>
+                        </form>                        
                     </div>
                 </div>
+                <br><br>
                 <div class="row">
-                    <div class="col-md-6">
-                        <h1 >SHOPPING LIST NAME</h1>
-                    </div>
-                    <div class="col-md-6">
-                        <h1 style="text-align: right" >ACTIONS</h1>
-                    </div>
+                    <div class="col-md-2"><p><b>SHOPPING LIST ID</b></p></div>
+                    <div class="col-md-4"><p><b>SHOPPING LIST NAME</b></p></div>
+                    <div class="col-md-6"><p><b>ACTIONS</b></p></div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         {% if shopping_list %}
-                        <ol>
                             {% for item in shopping_list  %}
-                            <li>
-                                <hr>
-                                <form action="/shop_list/<list_id>/del" >
-                                    <div class="form-group">
-                                        <!-- <input type="hidden" name={{ item.listname }} value="{{ item.listname }}"> -->
-                                        <!-- <button type="submit" class="btn btn-success" style="float:right">Delete</button>   -->
-                                        <button href="#" class="btn btn-primary delete_comment" data-id="{{ item.id }}"  style="float:right">Delete</button>
-                                  </div>
-                                </form>
-                                
-                                <form action="/update_list" method="post">
-                                    <div class="form-group">
-                                        <input type="hidden" name="list_to_update" value="{{ list_to_update }}">
-                                        <button type="submit" class="btn btn-success" style="float:right">Update</button>   
-                                    </div>
-                                </form>
-                                <form action="/view_items" method="post">
-                                    <div class="form-group">
-                                        <input type="hidden" name="list_to_view" value="view">
-                                        <button type="submit" class="btn btn-success" style="float:right">Add/View</button>    
-                                    </div>
-                                </form>
-                                <p style="font: 100">{{ item.listname }}</p>
-                                
-                                <!-- <a href="#">
-                                    <span class="glyphicon glyphicon-edit" style="float:right"></span>
-                                  </a>
-                                <a href="/del_shop_list">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </a> -->
-                                <!-- items: item name(cols 3)|quantity|price|icons -->
-                                
-                            </li>
-                            {% endfor %}
-                        </ol>  
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-2"><p >{{ item.list_id }}</p></div>
+                                <div class="col-md-4"><p >{{ item.listname }}</p></div>
+                                <div class="col-md-6">
+                                    <a href="/view_items" class="btn btn-primary view_items">Add/View</a>
+                                    <a href="/update_list" class="btn btn-primary update_list">Update</a>
+                                    <a href="/shop_list/del/{{ item.list_id }}" class="btn btn-primary delete_list">Delete</a>
+                                </div>
+                            </div>
+                         
+                            {% endfor %} 
                         {% endif %}
         
                     </div>

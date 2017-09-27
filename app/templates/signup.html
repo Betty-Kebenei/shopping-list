@@ -31,20 +31,17 @@
         <div class="content">
             <div class="row">
                 <div class="col-md-12">
-                    <form action="/signup" method="POST">
-                        <div class="form-group">
-                            <label for="firstname">First Name:*</label>
-                            <input type="text" placeholder="First Name" class="form-control" id="firstname" name="Firstname" required>
-                            <label for="lastname">Last Name:*</label>
-                            <input type="text" placeholder="Last Name" class="form-control" id="lastname" name="Lastname" required>
-                            <label for="username">User Name:*</label>
-                            <input type="text" placeholder="User Name" class="form-control" id="username" name="Username" required>
-                            <label for="email">Email:*</label>
-                            <input type="email" placeholder="Email" class="form-control" id="email" name="email" required>
-                            <label for="password">Password:*</label>
-                            <input type="password" placeholder="Password" class="form-control" id="password" name="psw" required>
-                            <button type="submit" class="btn btn-success" style="float:right">Submit</button>
-                        </div>
+                    {% for error in form.errors%}
+                    {{error}}
+                    {% endfor%}
+                    <form method="POST" action="{{ url_for('signup')}}">
+                    {{form.csrf_token}}
+                    {{form.firstname.label}} {{form.firstname(placeholder="Firstname", class="form-control", id="firstname")}}
+                    {{form.lastname.label}} {{form.lastname(placeholder="Lastname", class="form-control", id="lastname")}}
+                    {{form.username.label}} {{form.username(placeholder="Username", class="form-control", id="username")}}
+                    {{form.email.label}} {{form.email(placeholder="Email", class="form-control", id="email")}}
+                    {{form.password.label}} {{form.password(placeholder="Password", class="form-control", id="password")}}
+                    {{form.submit(class="btn btn-success", style="float:right")}}
                     </form>
                     <br><br>
                     <p><b>Are you already signed up? If so, <a href="/login">Sign In</a></b></p>

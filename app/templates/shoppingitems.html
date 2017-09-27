@@ -11,32 +11,8 @@
             <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-grid.min.css') }}" />
             <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-reboot.css') }}" />
             <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-reboot.min.css') }}" />
-            <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/dashboard.css') }}" /> -->
-            <style>
-            
-
-            body .container-fluid .header, body .container-fluid .footer {
-            background-color:blue;
-            color: white;
-            padding: 25px;
-            margin: 5px;
-            clear: left;
-            }
-        
-    
-            body .container-fluid .content{
-            margin: 25px;
-            border: 1px solid black;
-            padding: 25px;
-            align-content: center;
-            min-height: 450px;
-            overflow: hidden;
-            }
-
-    
-            </style>
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/dashboard.css') }}" />
             <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
-            
             <script src="{{ url_for('static', filename='js/jquery-3.2.1.js') }}"></script>
             <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
             <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
@@ -86,16 +62,8 @@
                                             <div class="col-md-3"><p>{{ item.quantity }}</p></div>
                                             <div class="col-md-3"><p>{{ item.price }}</p></div>
                                             <div class="col-md-3">
-                                                    <form action="/del_list" method="post">
-                                                        <div class="form-group">
-                                                            <button type="submit" class="btn btn-success" style="float:right">Delete</button>
-                                                        </div>
-                                                    </form>
-                                                    <form action="/update_list" method="post">
-                                                        <div class="form-group">
-                                                            <button type="submit" class="btn btn-success" style="float:right">Update</button> 
-                                                        </div>
-                                                    </form>
+                                                    <a href="/update_item" class="btn btn-primary update_list">Update</a>
+                                                    <a href="/del_item" class="btn btn-primary delete_list">Delete</a>
                                             </div>
                                         </div>
                                         <hr>
@@ -105,25 +73,23 @@
                                 {% endif %}
                             </div>
                         </div>
-                        <form action="/shop_item" method="post">
-                            <div class="form-group">
-                                <div class="row">
-                                        <div class="col-md-3">
-                                            <input type="text" placeholder="Item Name" class="form-control" id="create" name="itemname" required>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <input type="text" placeholder="Quantity" class="form-control" id="quantity" name="quantity" required>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <input type="text" placeholder="Price" class="form-control" id="price" name="price" required>
-                                        </div>
-                                        <div class="col-md-3">      
-                                        <button type="submit" class="btn btn-success" style="float:right">Add</button>  
-                                        </div>
-                                </div>
-                                    
+                        {% for error in form.errors%}
+                        {{error}}
+                        {% endfor%}
+                        <form method="POST" action="{{ url_for('shop_item')}}">
+                        {{form.csrf_token}}
+                        <div class="row">
+                            <div class="col-md-3">{{form.itemname.label}}</div>
+                            <div class="col-md-3">{{form.quantity.label}}</div>
+                            <div class="col-md-3">{{form.price.label}}</div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="row">
+                                <div class="col-md-3">{{form.itemname(placeholder="Item Name", class="form-control", id="create")}}</div>
+                                <div class="col-md-3">{{form.quantity(placeholder="Quantity", class="form-control", id="quantity")}}</div>
+                                <div class="col-md-3">{{form.price(placeholder="Price", class="form-control", id="price")}}</div>
+                                <div class="col-md-3">{{form.submit(class="btn btn-success")}}</div>
                             </div>
-                            
                         </form>
                     </div>
                 </div>
