@@ -63,17 +63,19 @@
                             {% for item in shopping_list  %}
                             <hr>
                             <div class="row">
-                                <div class="col-md-2"><p >{{ item.list_id }}</p></div>
-                                <div class="col-md-4"><p >{{ item.listname }}</p></div>
+                               {% if item.get('owner') == session.get('email')  %}
+                                <div class="col-md-2"><p >{{ item.get('lst').list_id }}</p></div>
+                                <div class="col-md-4"><p >{{ item.get('lst').listname }}</p></div>
                                 <div class="col-md-6">
                                     <a href="/view_items" class="btn btn-primary view_items">Add/View</a>
-                                    <a href="/edit_list" class="btn btn-primary update_list" 
-                                    data-toggle="modal" data-target="#myModal">Update</a>
-                                    <a href="/del_list/{{item.list_id}}" class="btn btn-primary delete_list">Delete</a>
+                                    <a href="/edit_list/{{item.get('lst').list_id}}" class="btn btn-primary update_list" 
+                                    data-toggle="modal" data-target="#{{item.get('lst').list_id}}myModal">Update</a>
+                                    <a href="/del_list/{{item.get('lst').list_id}}" class="btn btn-primary delete_list">Delete</a>
                                     
                                 </div>
+                                {% endif %}
                             </div>
-                            <div id="myModal" class="modal fade" role="dialog">
+                            <div id="{{item.get('lst').list_id}}myModal" class="modal fade" role="dialog">
                                 <div class="modal-dialog">
                               
                                   <!-- Modal content-->
@@ -83,7 +85,7 @@
                                       <h4 class="modal-title">Edit List</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="POST" action="/edit_list/{{item.list_id}}">
+                                        <form method="POST" action="/edit_list/{{item.get('lst').list_id}}">
                                             New list name:
                                             <input type="text"  class="form-control" name="newname" >
                                             <button type="submit" class="btn btn-success">Edit</button>

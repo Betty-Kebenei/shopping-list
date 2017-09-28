@@ -60,6 +60,7 @@ def signin():
             if email == user.email:
                 if password == user.password:
                     session["logged_in"] = True
+                    session["email"] = email
                     return redirect(url_for('dashboard'))
                 else:
                     flash('Wrong password!')
@@ -78,22 +79,22 @@ def logout():
 @app.route('/shop_list', methods=['POST', 'GET'])
 def shop_list():
     """Enabling users to create shopping lists."""
-
+    
     form = S_listForm()
     if form.validate_on_submit():
         listname = form.listname.data
         s_list = Shopping_list(listname)
-        shopping_list.append(s_list) 
+        shopping_list.append({'owner': session.get('email'), 'lst': s_list}) 
+        print(shopping_list)
         return render_template("dashboard.html", form=form, shopping_list=shopping_list)
     return redirect(url_for('dashboard'))
 
 @app.route('/del_list/<list_id>', methods=['GET'])
 def del_list(list_id):
     """Enabling users to delete shopping lists."""
-
-    for item in shopping_list:
-        if item.list_id == int(list_id):
-            shopping_list.remove(item)
+    for items in shopping_list:
+        if shopping_list[0]['lst'].list_id == int(list_id):
+            shopping_list.remove(items)
             return redirect(url_for("dashboard"))          
         return redirect(url_for("dashboard" ))
 
@@ -103,11 +104,11 @@ def edit_list(list_id):
 
     form = EditlistForm(request.form)
     new_name = form.newname.data
-    for item in shopping_list:
-        if item.list_id == int(list_id):
-            item.listname = new_name
+    for items in shopping_list:
+        if shopping_list[0]['lst'].list_id == int(list_id):
+            shopping_list[0]['lst'].listname = new_name
             return redirect(url_for("dashboard"))        
-    return render_template("dashboard.html")            
+    return render_template("dashboard.html", form = form)            
 
 @app.route('/view_lists', methods=['POST', 'GET'])
 def view_lists():
@@ -116,7 +117,7 @@ def view_lists():
     form = ItemsForm()
     if request.method == 'POST':
         return redirect(url_for('shop_list'))
-    return render_template("shoppingitems.html", form=form)
+    return render_template("shoppingitems.html", form=form, shopping_items=shopping_items)
 
 @app.route('/view_items', methods=['POST', 'GET'])
 def view_items():

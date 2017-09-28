@@ -1,8 +1,8 @@
 import random
-
 users = []
 shopping_list = []
 shopping_items = []
+
 class User(object): 
     """This class represents the users class."""
 
@@ -14,16 +14,13 @@ class User(object):
         self.email = email
         self.password = password
 
-
 class Shopping_list(object):
     """This class represents the shopping list class."""
 
-    def __init__(self, listname, list_id=None):
-        self.list_id = random.randrange(1, 1000, 1) #number of the shopping_list
-        #self.owner=owner    #owner of the shopping list
+    def __init__(self, listname):
+        self.list_id = random.randrange(1, 1000, 1) 
         self.listname = listname
-        
-        
+  
 class Shopping_items(object):
     """This class represents the shopping items class."""
 
@@ -31,15 +28,6 @@ class Shopping_items(object):
         self.itemname = itemname
         self.quantity = quantity
         self.price = price
-       
-    #def add_shopping_item(self):
 
     def view_shopping_items(self):
         return shopping_items
-
-    #def update_shopping_item(self):
-
-    def delete_shopping_item(self):
-        if item_to_delete in Shopping_items:
-            shopping_items.remove(item_to_delete)
-            return "Item deleted."    

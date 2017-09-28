@@ -43,7 +43,7 @@ class ItemsForm(Form):
                                                         Regexp("^[A-Za-z0-9_-]+(\s+[A-Za-z0-9_-]+)*$", 0, 
                                                         'Input should contain [A-Za-z0-9_-] spaces')])
     quantity = StringField('Quantity', validators=[Length(1, 50), InputRequired(), DataRequired(), 
-                                                        Regexp("^[A-Za-z0-9_-]+(\s+[A-Za-z0-9_-]+)*$", 0, 
+                                                        Regexp("^[0-9]+(\s+[0-9]+)*$", 0, 
                                                         'Input should contain [A-Za-z0-9_-] spaces')])
     price = IntegerField('Price(ksh)', validators=[Length(1, 50), InputRequired(), DataRequired(), 
                                                         Regexp("^[0-9]+(\s+[0-9]+)*$", 0, 
