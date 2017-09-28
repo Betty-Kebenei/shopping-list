@@ -18,7 +18,7 @@ class UserTestCase(unittest.TestCase):
 
     def test_signup_successful(self):
         res = app.test_client(self)
-        response = res.post('/signup', users=(firstname, lastname, username, email, password) follow_redirects=True)
+        response = res.post('/signup', users=(firstname="firstname", lastname="lastname", username="username", email="email", password="password", con_password="con_password") follow_redirects=True)
         self.assertTrue('email' in response.data)
 
     def test_login_passes(self):
