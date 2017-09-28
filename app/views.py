@@ -40,9 +40,9 @@ def signup():
         if password == con_password:
             user = User(firstname, lastname, username, email, password)
             users.append(user)
+            return redirect(url_for('signin'))
         else:
             flash('Password not equal to con_password.')
-        return redirect(url_for('signin'))
     return render_template("signup.html", form=form)
 
 @app.route('/login', methods=['POST', 'GET'])
