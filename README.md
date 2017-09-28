@@ -1,3 +1,4 @@
+https://s-list.herokuapp.com/
 
 [![Build Status](https://travis-ci.org/Betty-Kebenei/shopping-list.svg?branch=master)](https://travis-ci.org/Betty-Kebenei/shopping-list)
 
