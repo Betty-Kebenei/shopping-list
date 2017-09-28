@@ -17,14 +17,14 @@ def verify_login_session():
     if not session["logged_in"]:
         return redirect(url_for('signin'))
 
-@app.route('/')
+
 def dashboard():
     """Directs user to the dashboard."""
 
     form = S_listForm()
     return render_template("dashboard.html", form=form, shopping_list=shopping_list)
 
-
+@app.route('/')
 @app.route('/signup',methods=['POST', 'GET'])
 def signup():
     """Enabling users to sign up."""
