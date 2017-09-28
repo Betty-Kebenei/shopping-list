@@ -40,3 +40,27 @@ Create a virtualenv by running
 Activate the virtualenv by running this command
   >pymote_env\Scripts\activate
 
+### Installing
+Navigate to the directory containing the project.
+
+Clone the repo by running  
+
+  >git clone https://github.com/Betty-Kebenei/shopping-list 
+
+## Testing the application
+Navigate to the root of the application
+
+Install the requirements by running
+
+  >pip install -r requirements.txt
+
+Run the application by
+
+  >python run.py
+
+Access the app on the browser using http://127.0.0.1:5000
+
+## Running Test Cases
+In the same directory run 
+
+  >python tests.py
