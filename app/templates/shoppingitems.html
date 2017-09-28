@@ -74,7 +74,7 @@
                             </div>
                         </div>
                         {% for error in form.errors%}
-                        {{error}}
+                        <div class="keb_error">{{error}}</div>
                         {% endfor%}
                         <form method="POST" action="{{ url_for('shop_item')}}">
                         {{form.csrf_token}}

@@ -2,10 +2,18 @@ body {
     background-color: powderblue;
     margin: 10% 30%;
     }
-#body {
-    background-color: #95ABC4;
-    padding: 25px 50px;
+
+body .container-fluid .content .keb_error{
+    background-color: white;
+    color: black;
+    border: 2px solid blue;
+    border-radius: 15px;
 }
-.input-element {
-   width: 100%; 
+
+body p{
+    background-color:white; 
+    border:1px solid red;
+    border-radius: 25px;
+    min-height: 30px;
+    color: black
 }

@@ -21,8 +21,11 @@ def verify_login_session():
 def dashboard():
     """Directs user to the dashboard."""
 
-    form = S_listForm()
-    return render_template("dashboard.html", form=form, shopping_list=shopping_list)
+    if session["logged_in"]:
+        form = S_listForm()
+        return render_template("dashboard.html", form=form, shopping_list=shopping_list)
+    else:
+        return redirect(url_for('signin'))
 
 @app.route('/')
 @app.route('/signup',methods=['POST', 'GET'])
@@ -42,7 +45,7 @@ def signup():
             users.append(user)
             return redirect(url_for('signin'))
         else:
-            flash('Password not equal to con_password.')
+            flash('Your password is not equal to your confirm password.')
     return render_template("signup.html", form=form)
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -56,6 +59,7 @@ def signin():
         for user in users:
             if email == user.email:
                 if password == user.password:
+                    session["logged_in"] = True
                     return redirect(url_for('dashboard'))
                 else:
                     flash('Wrong password!')

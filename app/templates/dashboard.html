@@ -39,7 +39,7 @@
                     <div class="col-md-12">
                         <h1>My shopping lists:</h1>
                         {% for error in form.errors%}
-                        {{error}}
+                        <div class="keb_error">{{error}}</div>
                         {% endfor%}
                         <form method="POST" action="{{ url_for('shop_list')}}">
                         {{form.csrf_token}}
