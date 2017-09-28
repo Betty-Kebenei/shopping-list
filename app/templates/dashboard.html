@@ -67,13 +67,40 @@
                                 <div class="col-md-4"><p >{{ item.listname }}</p></div>
                                 <div class="col-md-6">
                                     <a href="/view_items" class="btn btn-primary view_items">Add/View</a>
-                                    <a href="/update_list" class="btn btn-primary update_list">Update</a>
-                                    <a href="/shop_list/del/{{ item.list_id }}" class="btn btn-primary delete_list">Delete</a>
+                                    <a href="/update_list" class="btn btn-primary update_list" 
+                                    data-toggle="modal" data-target="#myModal">Update</a>
+                                    <a href="/del_list/{{item.list_id}}" class="btn btn-primary delete_list">Delete</a>
+                                    
                                 </div>
                             </div>
+                            <div id="myModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                              
+                                  <!-- Modal content-->
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      <h4 class="modal-title">Edit List</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="/edit_list/{{item.list_id}}">
+                                            New list name:
+                                            <input type="text"  class="form-control" name="newname" >
+                                            <button type="submit" class="btn btn-success">Edit</button>
+                                        </form> 
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                  </div>
+                              
+                                </div>
+                              </div>
+
                          
-                            {% endfor %} 
+                        {% endfor %} 
                         {% endif %}
+                       
         
                     </div>
                 </div>

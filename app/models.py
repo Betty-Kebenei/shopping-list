@@ -3,7 +3,9 @@ import random
 users = []
 shopping_list = []
 shopping_items = []
-class User(object):   
+class User(object): 
+    """This class represents the users class."""
+
     def __init__(self, first_name, last_name, username, email, password):
         self.id_number = random.randrange(1, 1000, 1)
         self.first_name = first_name
@@ -14,16 +16,17 @@ class User(object):
 
 
 class Shopping_list(object):
-    def __init__(self, listname):
+    """This class represents the shopping list class."""
+
+    def __init__(self, listname, list_id=None):
         self.list_id = random.randrange(1, 1000, 1) #number of the shopping_list
         #self.owner=owner    #owner of the shopping list
         self.listname = listname
-
-    def remove_list(self):
-        if self.list_id in shopping_list:
-            shopping_list.remove(self.list_id,self.listname)
+        
         
 class Shopping_items(object):
+    """This class represents the shopping items class."""
+
     def __init__(self, itemname, quantity, price):
         self.itemname = itemname
         self.quantity = quantity
