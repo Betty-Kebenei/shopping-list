@@ -4,8 +4,6 @@ from flask import session, render_template, redirect, request, url_for, flash
 from app import app
 from app.forms import LoginForm, SignupForm, S_listForm, ItemsForm, EditlistForm
 
-
-
 def login_session(user):
     """Enabling users should have session."""
 
@@ -84,6 +82,7 @@ def shop_list():
 @app.route('/del_list/<list_id>', methods=['GET'])
 def del_list(list_id):
     """Enabling users to delete shopping lists."""
+
     for item in shopping_list:
         if item.list_id == int(list_id):
             shopping_list.remove(item)
@@ -92,19 +91,19 @@ def del_list(list_id):
 
 @app.route('/edit_list/<list_id>', methods=['POST'])
 def edit_list(list_id):
-    # """Enabling users to delete shopping lists."""
+    """Enabling users to update shopping lists."""
+
     form = EditlistForm(request.form)
     new_name = form.newname.data
     for item in shopping_list:
         if item.list_id == int(list_id):
             item.listname = new_name
-            return redirect(url_for("dashboard")) 
-            
+            return redirect(url_for("dashboard"))        
     return render_template("dashboard.html")            
 
 @app.route('/view_lists', methods=['POST', 'GET'])
 def view_lists():
-    """Enabling users to view shopping list."""
+    """Enabliging users to view shopping list."""
 
     form = ItemsForm()
     if request.method == 'POST':
