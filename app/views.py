@@ -36,8 +36,12 @@ def signup():
         username = form.username.data
         email = form.email.data
         password = form.password.data
-        user = User(firstname, lastname, username, email, password)
-        users.append(user)
+        con_password = form.con_password.data
+        if password == con_password:
+            user = User(firstname, lastname, username, email, password)
+            users.append(user)
+        else:
+            flash('Password not equal to con_password.')
         return redirect(url_for('signin'))
     return render_template("signup.html", form=form)
 

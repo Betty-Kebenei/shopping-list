@@ -24,6 +24,7 @@ class SignupForm(Form):
                                                         'Input should contain [A-Za-z0-9_-] spaces')])
     email = StringField('Email:', validators=[Email(), InputRequired()])
     password = PasswordField('Password:', validators=[Length(6, 50), InputRequired()])
+    con_password = PasswordField('Confirm Password:', validators=[Length(6, 50), InputRequired()])
     submit = SubmitField('Sign Up')
 
 
