@@ -17,7 +17,7 @@ def verify_login_session():
     if not session["logged_in"]:
         return redirect(url_for('signin'))
 
-
+@app.route('/dashboard')
 def dashboard():
     """Directs user to the dashboard."""
 
