@@ -21,11 +21,8 @@ def verify_login_session():
 def dashboard():
     """Directs user to the dashboard."""
 
-    if session["logged_in"]:
         form = S_listForm()
         return render_template("dashboard.html", form=form, shopping_list=shopping_list)
-    else:
-        return redirect(url_for('signin'))
 
 @app.route('/')
 @app.route('/signup',methods=['POST', 'GET'])
