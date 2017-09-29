@@ -28,6 +28,3 @@ class Shopping_items(object):
         self.itemname = itemname
         self.quantity = quantity
         self.price = price
-
-    def view_shopping_items(self):
-        return shopping_items

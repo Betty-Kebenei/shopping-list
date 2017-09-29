@@ -13,15 +13,27 @@ class LoginForm(Form):
 class SignupForm(Form):
     """Validation form for signing up."""
 
-    firstname = StringField('First Name:', validators=[Length(3, 50), InputRequired(), DataRequired(), 
-                                                        Regexp("^[A-Za-z_-]+(\s+[A-Za-z_-]+)*$", 0, 
-                                                        'Input should contain [A-Za-z_-] spaces')])
-    lastname = StringField('Last Name:', validators=[Length(3, 50), InputRequired(), DataRequired(), 
-                                                        Regexp("^[A-Za-z_-]+(\s+[A-Za-z_-]+)*$", 0, 
-                                                        'Input should contain [A-Za-z_-] spaces')])                                               
-    username = StringField('User Name:', validators=[Length(3, 50), InputRequired(), DataRequired(), 
-                                                        Regexp("^[A-Za-z0-9_-]+(\s+[A-Za-z0-9_-]+)*$", 0, 
-                                                        'Input should contain [A-Za-z0-9_-] spaces')])
+    firstname = StringField(
+        'First Name:', validators=[Length(3, 50),
+                                   InputRequired(),
+                                   DataRequired(),
+                                   Regexp("^[A-Za-z_-]+(\s+[A-Za-z_-]+)*$",
+                                          0,
+                                          'Input should contain [A-Za-z_-] spaces')])
+    lastname = StringField(
+        'Last Name:', validators=[Length(3, 50),
+                                  InputRequired(),
+                                  DataRequired(),
+                                  Regexp("^[A-Za-z_-]+(\s+[A-Za-z_-]+)*$",
+                                         0,
+                                         'Input should contain [A-Za-z_-] spaces')])                                               
+    username = StringField(
+        'User Name:', validators=[Length(3, 50),
+                                  InputRequired(),
+                                  DataRequired(),
+                                  Regexp("^[A-Za-z0-9_-]+(\s+[A-Za-z0-9_-]+)*$",
+                                         0,
+                                         'Input should contain [A-Za-z0-9_-] spaces')])
     email = StringField('Email:', validators=[Email(), InputRequired()])
     password = PasswordField('Password:', validators=[Length(6, 50), InputRequired()])
     con_password = PasswordField('Confirm Password:', validators=[Length(6, 50), InputRequired()])
@@ -31,30 +43,49 @@ class SignupForm(Form):
 class S_listForm(Form):
     """Validation form for creating lists."""
 
-    listname = StringField('Create a new list:', validators=[Length(3, 50), InputRequired(), DataRequired(), 
-                                                        Regexp("^[A-Za-z0-9_-]+(\s+[A-Za-z0-9_-]+)*$", 0, 
-                                                        'Input should contain [A-Za-z0-9_-] spaces')])
+    listname = StringField(
+        'Create a new list:', validators=[Length(3, 50),
+                                          InputRequired(),
+                                          DataRequired(),
+                                          Regexp("^[A-Za-z0-9_-]+(\s+[A-Za-z0-9_-]+)*$",
+                                                 0,
+                                                 'Input should contain [A-Za-z0-9_-] spaces')])
     submit = SubmitField('Create')
 
 class ItemsForm(Form):
     """Validation form for adding items."""
 
-    itemname = StringField('Item Name', validators=[Length(3, 50), InputRequired(), DataRequired(), 
-                                                        Regexp("^[A-Za-z0-9_-]+(\s+[A-Za-z0-9_-]+)*$", 0, 
-                                                        'Input should contain [A-Za-z0-9_-] spaces')])
-    quantity = StringField('Quantity', validators=[Length(1, 50), InputRequired(), DataRequired(), 
-                                                        Regexp("^[0-9]+(\s+[0-9]+)*$", 0, 
-                                                        'Input should contain [0-9] spaces')])
-    price = IntegerField('Price(ksh)', validators=[Length(1, 50), InputRequired(), DataRequired(), 
-                                                        Regexp("^[0-9]+(\s+[0-9]+)*$", 0, 
-                                                        'Input should contain [0-9] spaces')])
+    itemname = StringField(
+        'Item Name', validators=[Length(3, 50),
+                                 InputRequired(),
+                                 DataRequired(),
+                                 Regexp("^[A-Za-z0-9_-]+(\s+[A-Za-z0-9_-]+)*$",
+                                        0,
+                                        'Input should contain [A-Za-z0-9_-] spaces')])
+    quantity = StringField(
+        'Quantity', validators=[Length(1, 50),
+                                InputRequired(),
+                                DataRequired(),
+                                Regexp("^[0-9]+(\s+[0-9]+)*$",
+                                       0,
+                                       'Input should contain [0-9] spaces')])
+    price = IntegerField(
+        'Price(ksh)', validators=[Length(1, 50),
+                                  InputRequired(),
+                                  DataRequired(),
+                                  Regexp("^[0-9]+(\s+[0-9]+)*$",
+                                         0,
+                                         'Input should contain [0-9] spaces')])
     submit = SubmitField('Add')
 
 class EditlistForm(Form):
     """Validation form for creating lists."""
 
-    newname = StringField('New listname:', validators=[Length(3, 50), InputRequired(), DataRequired(), 
-                                                        Regexp("^[A-Za-z0-9_-]+(\s+[A-Za-z0-9_-]+)*$", 0, 
-                                                        'Input should contain [A-Za-z0-9_-] spaces')])
- 
-
+    newname = StringField(
+        'New listname:', validators=[Length(3, 50),
+                                     InputRequired(),
+                                     DataRequired(),
+                                     Regexp("^[A-Za-z0-9_-]+(\s+[A-Za-z0-9_-]+)*$",
+                                            0,
+                                            'Input should contain [A-Za-z0-9_-] spaces')])
+                                            
