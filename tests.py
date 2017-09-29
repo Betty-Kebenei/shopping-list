@@ -77,7 +77,7 @@ class ShoppinglistsTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-class ShoppingItemsTestCase(unittest.TestCase):  
+class ShoppingItemsTestCase(unittest.TestCase):
     """This class represents the shopping items test cases"""
     
     def test_shoppingitems_page_loads(self):
