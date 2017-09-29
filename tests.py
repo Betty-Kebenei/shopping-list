@@ -61,6 +61,21 @@ class ShoppinglistsTestCase(unittest.TestCase):
         response = res.post('/shop_list', data=dict(listname="books"), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
+    def test_shoppinglist_update(self):
+        """Test updating of a shoppinglist """
+
+        res = app.test_client(self)
+        res.post('/signup', data=dict(firstname="firstname",
+                                      lastname="lastname",
+                                      username="username",
+                                      email="hey@gmail.com",
+                                      password="123"), follow_redirects=True)
+        res.post('/login', data=dict(username="hey@gmail.com",
+                                     password="123"), follow_redirects=True)
+        res.post('/shop_list', data=dict(listname="books"), follow_redirects=True)
+        response = res.post('/shop_list', data=dict(newname="bags"), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+    
     def test_shoppinglist_deletion(self):
         """Test deletion of a shoppinglist """
 
@@ -100,6 +115,48 @@ class ShoppingItemsTestCase(unittest.TestCase):
         res.post('/login', data=dict(
             username="hey@gmail.com", password="123"), follow_redirects=True)
         res.post('/shop_list', data=dict(listname="books"), follow_redirects=True)
+        response = res.post(
+            '/shop_item', data=dict(
+                itemname='itemname', quantity='quantity', price='price'), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_shoppingitems_update(self):
+        """Test update of an item in the shopping list"""
+        
+        res = app.test_client(self)
+        res.post(
+            '/signup', data=dict(firstname="firstname",
+                                 lastname="lastname",
+                                 username="username",
+                                 email="hey@gmail.com",
+                                 password="123"), follow_redirects=True)
+        res.post('/login', data=dict(
+            username="hey@gmail.com", password="123"), follow_redirects=True)
+        res.post('/shop_list', data=dict(listname="books"), follow_redirects=True)
+        res.post(
+            '/shop_item', data=dict(
+                itemname='itemname', quantity='quantity', price='price'), follow_redirects=True)
+        response = res.post(
+            '/shop_item', data=dict(
+                itemname='itemname2', quantity='quantity2', price='price2'), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_shoppingitems_deletion(self):
+        """Test deletion of an item in the shopping list"""
+        
+        res = app.test_client(self)
+        res.post(
+            '/signup', data=dict(firstname="firstname",
+                                 lastname="lastname",
+                                 username="username",
+                                 email="hey@gmail.com",
+                                 password="123"), follow_redirects=True)
+        res.post('/login', data=dict(
+            username="hey@gmail.com", password="123"), follow_redirects=True)
+        res.post('/shop_list', data=dict(listname="books"), follow_redirects=True)
+        res.post(
+            '/shop_item', data=dict(
+                itemname='itemname', quantity='quantity', price='price'), follow_redirects=True)
         response = res.post(
             '/shop_item', data=dict(
                 itemname='itemname', quantity='quantity', price='price'), follow_redirects=True)
