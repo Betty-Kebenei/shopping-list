@@ -8,6 +8,7 @@ def login_session(user):
     """Enabling users should have session."""
 
     session["email"] = user.email
+    session["list_id"] = user.email.list_id
     session["logged_in"] = True
     return redirect(url_for('dashboard'))
 
@@ -20,9 +21,12 @@ def verify_login_session():
 @app.route('/dashboard')
 def dashboard():
     """Directs user to the dashboard."""
-
-    form = S_listForm()
-    return render_template("dashboard.html", form=form, shopping_list=shopping_list)
+    
+    if session["logged_in"] is True:
+        form = S_listForm()
+        return render_template("dashboard.html", form=form, shopping_list=shopping_list)
+    else:
+        return redirect(url_for('signin'))     
 
 @app.route('/')
 @app.route('/signup',methods=['POST', 'GET'])
@@ -88,11 +92,12 @@ def shop_list():
 @app.route('/del_list/<list_id>', methods=['GET'])
 def del_list(list_id):
     """Enabling users to delete shopping lists."""
+
     for items in shopping_list:
-        if shopping_list[0]['lst'].list_id == int(list_id):
+        if items['lst'].list_id == int(list_id):
             shopping_list.remove(items)
-            return redirect(url_for("dashboard"))          
-        return redirect(url_for("dashboard" ))
+            return redirect(url_for("dashboard"))
+    return redirect(url_for("dashboard"))
 
 @app.route('/edit_list/<list_id>', methods=['POST'])
 def edit_list(list_id):
@@ -100,10 +105,11 @@ def edit_list(list_id):
 
     form = EditlistForm(request.form)
     new_name = form.newname.data
-    if shopping_list[0]['lst'].list_id == int(list_id):
-        shopping_list[0]['lst'].listname = new_name
-        return redirect(url_for("dashboard"))        
-    return render_template("dashboard.html", form = form)            
+    for items in shopping_list:
+        if items['lst'].list_id == int(list_id):
+            items['lst'].listname = new_name
+            return redirect(url_for("dashboard"))
+    return render_template("dashboard.html", form=form)
 
 @app.route('/view_lists', methods=['POST', 'GET'])
 def view_lists():
@@ -131,6 +137,6 @@ def shop_item():
         quantity = form.quantity.data
         price = form.price.data
         item = Shopping_items(itemname, quantity, price)
-        shopping_items.append(item)
+        shopping_items.append({'list_id':session.get('list_id'), 'items':item})
         return render_template("shoppingitems.html", form=form, shopping_items=shopping_items)
     return redirect(url_for('shop_item'))

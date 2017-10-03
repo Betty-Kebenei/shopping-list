@@ -14,14 +14,14 @@ class User(object):
         self.email = email
         self.password = password
 
-class Shopping_list(object):
+class Shopping_list(User):
     """This class represents the shopping list class."""
 
     def __init__(self, listname):
         self.list_id = random.randrange(1, 1000, 1) 
         self.listname = listname
   
-class Shopping_items(object):
+class Shopping_items(Shopping_list):
     """This class represents the shopping items class."""
 
     def __init__(self, itemname, quantity, price):
