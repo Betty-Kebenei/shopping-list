@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<title>My Application</title>
+
 <html lang="en">
 
 <head>
@@ -16,14 +18,31 @@
     <script src="{{ url_for('static', filename='js/jquery-3.2.1.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
 </head>
 
 <body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message }} alert-dismissable" role="alert" >
+            <button type="button" class="close" data-dismiss= "alert">&times;</button>
+            <p style="background-color:white; 
+            border:1px solid red;
+            border-radius: 10px;
+            min-height: 50px;
+            color: black">{{message}}</p>
+        </div>
+        {% endfor %}
+        
+    {% endif %}
+    {% endwith %}
+    {% block body %}{% endblock %}
     <div class="container-fluid">
         <div class="header">
             <div class="row">
                 <div class="col-md-12">
-                    <p><b>Please fill in the form below to signup:</b></p>
+                    <h1>Please fill in the form below to signup:</h1>
                 </div>
             </div>
         </div>
@@ -32,7 +51,7 @@
             <div class="row">
                 <div class="col-md-12">
                     {% for error in form.errors%}
-                    {{error}}
+                    <div class="keb_error">{{error}}</div>
                     {% endfor%}
                     <form method="POST" action="{{ url_for('signup')}}">
                     {{form.csrf_token}}
@@ -41,10 +60,11 @@
                     {{form.username.label}} {{form.username(placeholder="Username", class="form-control", id="username")}}
                     {{form.email.label}} {{form.email(placeholder="Email", class="form-control", id="email")}}
                     {{form.password.label}} {{form.password(placeholder="Password", class="form-control", id="password")}}
+                    {{form.con_password.label}} {{form.con_password(placeholder="Password", class="form-control", id="password")}}
                     {{form.submit(class="btn btn-success", style="float:right")}}
                     </form>
                     <br><br>
-                    <p><b>Are you already signed up? If so, <a href="/login">Sign In</a></b></p>
+                    <h2>Are you already signed up? If so, <a href="/login">Sign In</a><h2>
                 </div>
             </div>
         </div>

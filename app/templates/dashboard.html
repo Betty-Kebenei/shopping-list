@@ -39,7 +39,7 @@
                     <div class="col-md-12">
                         <h1>My shopping lists:</h1>
                         {% for error in form.errors%}
-                        {{error}}
+                        <div class="keb_error">{{error}}</div>
                         {% endfor%}
                         <form method="POST" action="{{ url_for('shop_list')}}">
                         {{form.csrf_token}}
@@ -63,17 +63,46 @@
                             {% for item in shopping_list  %}
                             <hr>
                             <div class="row">
-                                <div class="col-md-2"><p >{{ item.list_id }}</p></div>
-                                <div class="col-md-4"><p >{{ item.listname }}</p></div>
+                               {% if item.get('owner') == session.get('email')  %}
+                                <div class="col-md-2"><p >{{ item.get('lst').list_id }}</p></div>
+                                <div class="col-md-4"><p >{{ item.get('lst').listname }}</p></div>
                                 <div class="col-md-6">
                                     <a href="/view_items" class="btn btn-primary view_items">Add/View</a>
-                                    <a href="/update_list" class="btn btn-primary update_list">Update</a>
-                                    <a href="/shop_list/del/{{ item.list_id }}" class="btn btn-primary delete_list">Delete</a>
+                                    <a href="/edit_list/{{item.get('lst').list_id}}" class="btn btn-primary update_list" 
+                                    data-toggle="modal" data-target="#{{item.get('lst').list_id}}myModal">Update</a>
+                                    <a href="/del_list/{{item.get('lst').list_id}}" class="btn btn-primary delete_list">Delete</a>
+                                    
                                 </div>
+                                {% endif %}
                             </div>
+                            <div id="{{item.get('lst').list_id}}myModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                              
+                                  <!-- Modal content-->
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      <h4 class="modal-title">Edit List</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="/edit_list/{{item.get('lst').list_id}}">
+                                            New list name:
+                                            <input type="text"  class="form-control" name="newname" >
+                                            <button type="submit" class="btn btn-success">Edit</button>
+                                        </form> 
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                  </div>
+                              
+                                </div>
+                              </div>
+
                          
-                            {% endfor %} 
+                        {% endfor %} 
                         {% endif %}
+                       
         
                     </div>
                 </div>
