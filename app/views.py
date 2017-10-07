@@ -130,6 +130,16 @@ def view_items(list_id):
             session["list_id"] = list_id
             return render_template("shoppingitems.html", form=form)
 
+@app.route('/shopping_items')
+def shopping_items():
+    """Directs user to the shopping items page."""
+     
+    if session["logged_in"] is True:
+        form = ItemsForm()
+        return render_template("shoppingitems.html", form=form, shopping_list=shopping_list)
+    else:
+        return redirect(url_for('signin'))   
+
 @app.route('/shop_item', methods=['POST', 'GET'])
 def shop_item():
     """Enabling users to add shopping items to their shopping lists."""
@@ -144,7 +154,7 @@ def shop_item():
         for shopping in shopping_list:
             shopping['lst'].shopping_items.append(item)
             return render_template("shoppingitems.html", form=form, shopping_list=shopping_list)
-    return redirect(url_for('shop_item'))
+    return redirect(url_for('shopping_items'))
 
 @app.route('/edit_item/<item_id>', methods=['POST'])
 def edit_item(item_id):
@@ -155,9 +165,21 @@ def edit_item(item_id):
     newquantity = form.newquantity.data
     newprice = form.newprice.data
     for shopping in shopping_list:
-        if shopping['lst'].shopping_items.item_id == int(item_id):
-            shopping['lst'].shopping_items.itemname = newitemname
-            shopping['lst'].shopping_items.quantity = newquantity
-            shopping['lst'].shopping_items.price = newprice
-            return redirect(url_for("dashboard"))
-    return render_template("dashboard.html", form=form)
+        for i in shopping['lst'].shopping_items:
+            if i.item_id == int(item_id):
+                i.itemname = newitemname
+                i.quantity = newquantity
+                i.price = newprice
+                return redirect(url_for("shopping_items"))
+    return render_template("shoppingitems.html", form=form)
+
+@app.route('/del_item/<item_id>', methods=['GET'])
+def del_item(item_id):
+    """Enabling users to delete a shopping item in a shopping list."""
+
+    for shopping in shopping_list:
+        for i in shopping['lst'].shopping_items:
+            if i.item_id == int(item_id):
+                shopping['lst'].shopping_items.remove(i)
+                return redirect(url_for("shopping_items"))
+    return render_template("shoppingitems.html")
