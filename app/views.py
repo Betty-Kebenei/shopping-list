@@ -24,11 +24,15 @@ def dashboard():
      
     if session["logged_in"] is True:
         form = S_listForm()
-        return render_template("dashboard.html", form=form, shopping_list=shopping_list)
+        user_shopping_list = []  # container for user shopping list
+        for shl in shopping_list:
+            if shl.created_by == session.get('email'):  # check owner
+                user_shopping_list.append(shl)  # append if true
+
+        return render_template("dashboard.html", form=form, shopping_list=user_shopping_list)
     else:
         return redirect(url_for('signin'))     
 
-@app.route('/')
 @app.route('/signup',methods=['POST', 'GET'])
 def signup():
     """Enabling users to sign up."""
@@ -84,9 +88,8 @@ def shop_list():
     form = S_listForm()
     if form.validate_on_submit():
         listname = form.listname.data
-        s_list = Shopping_list(listname)
-        shopping_list.append({'owner': session.get('email'), 'lst': s_list})
-        return render_template("dashboard.html", form=form, shopping_list=shopping_list)
+        s_list = Shopping_list(listname, created_by=session.get('email'))  # pass the owner
+        shopping_list.append(s_list)  # remove owner and just append created list only
     return redirect(url_for('dashboard'))
 
 @app.route('/del_list/<list_id>', methods=['GET'])
@@ -125,10 +128,11 @@ def view_items(list_id):
     """Enabling users to view their shopping items."""
 
     form = ItemsForm()
-    for items in shopping_list:
-        if items['lst'].list_id == int(list_id):
+    for items in shopping_list:  # loop through the shopping list
+        if items.list_id == int(list_id):
             session["list_id"] = list_id
-            return render_template("shoppingitems.html", form=form)
+
+    return render_template("shoppingitems.html", form=form, shopping_list=shopping_list)  # pass the shopping list to the template
 
 @app.route('/shop_item', methods=['POST', 'GET'])
 def shop_item():
@@ -139,12 +143,14 @@ def shop_item():
         itemname = form.itemname.data
         quantity = form.quantity.data
         price = form.price.data
-        print(itemname, quantity, price)
         item = Shopping_items(itemname, quantity, price)
         for shopping in shopping_list:
-            shopping['lst'].shopping_items.append(item)
-            return render_template("shoppingitems.html", form=form, shopping_list=shopping_list)
-    return redirect(url_for('shop_item'))
+            shopping.shopping_items.append(item)
+
+        # i interchanged `return` position, please check your previous code
+        return redirect(url_for('shop_item'))
+    return render_template("shoppingitems.html", form=form, shopping_list=shopping_list)
+
 
 @app.route('/edit_item/<item_id>', methods=['POST'])
 def edit_item(item_id):
@@ -155,9 +161,9 @@ def edit_item(item_id):
     newquantity = form.newquantity.data
     newprice = form.newprice.data
     for shopping in shopping_list:
-        if shopping['lst'].shopping_items.item_id == int(item_id):
-            shopping['lst'].shopping_items.itemname = newitemname
-            shopping['lst'].shopping_items.quantity = newquantity
-            shopping['lst'].shopping_items.price = newprice
+        if shopping.shopping_items.item_id == int(item_id):
+            shopping.shopping_items.itemname = newitemname
+            shopping.shopping_items.quantity = newquantity
+            shopping.shopping_items.price = newprice
             return redirect(url_for("dashboard"))
     return render_template("dashboard.html", form=form)
