@@ -57,8 +57,7 @@
                                 
                                 <ol>
                                     {% for item in shopping_list  %}
-                                    {% if item.get('owner') == session.get('email')  %}
-                                    {% for i in item.get('lst').shopping_items %}
+                                    {% for i in item.shopping_items %}
                                     <li>
                                         <div class="row"> 
                                             <div class="col-md-3"><p>{{ i.itemname }}</p></div>
@@ -97,7 +96,6 @@
                                         <hr>
                                     </li>
                                     {% endfor %}
-                                    {% endif %}
                                     {% endfor %}
                                 </ol>  
                                 {% endif %}
