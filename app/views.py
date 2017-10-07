@@ -1,8 +1,8 @@
 # views.py
-from app.models import User, users, Shopping_list, shopping_list, Shopping_items, shopping_items
+from app.models import User, users, Shopping_list, shopping_list, Shopping_items
 from flask import session, render_template, redirect, request, url_for, flash
 from app import app
-from app.forms import LoginForm, SignupForm, S_listForm, ItemsForm, EditlistForm
+from app.forms import LoginForm, SignupForm, S_listForm, ItemsForm, EditlistForm, EdititemForm
 
 def login_session(user):
     """Enabling users should have session."""
@@ -21,7 +21,7 @@ def verify_login_session():
 @app.route('/dashboard')
 def dashboard():
     """Directs user to the dashboard."""
-    
+     
     if session["logged_in"] is True:
         form = S_listForm()
         return render_template("dashboard.html", form=form, shopping_list=shopping_list)
@@ -118,14 +118,17 @@ def view_lists():
     form = ItemsForm()
     if request.method == 'POST':
         return redirect(url_for('shop_list'))
-    return render_template("shoppingitems.html", form=form, shopping_items=shopping_items)
+    return render_template("shoppingitems.html", form=form)
 
-@app.route('/view_items', methods=['POST', 'GET'])
-def view_items():
+@app.route('/view_items/<list_id>', methods=['POST', 'GET'])
+def view_items(list_id):
     """Enabling users to view their shopping items."""
 
     form = ItemsForm()
-    return render_template("shoppingitems.html", form=form)
+    for items in shopping_list:
+        if items['lst'].list_id == int(list_id):
+            session["list_id"] = list_id
+            return render_template("shoppingitems.html", form=form)
 
 @app.route('/shop_item', methods=['POST', 'GET'])
 def shop_item():
@@ -136,7 +139,25 @@ def shop_item():
         itemname = form.itemname.data
         quantity = form.quantity.data
         price = form.price.data
+        print(itemname, quantity, price)
         item = Shopping_items(itemname, quantity, price)
-        shopping_items.append({'list_id':session.get('list_id'), 'items':item})
-        return render_template("shoppingitems.html", form=form, shopping_items=shopping_items)
+        for shopping in shopping_list:
+            shopping['lst'].shopping_items.append(item)
+            return render_template("shoppingitems.html", form=form, shopping_list=shopping_list)
     return redirect(url_for('shop_item'))
+
+@app.route('/edit_item/<item_id>', methods=['POST'])
+def edit_item(item_id):
+    """Enabling users to update their shopping items."""
+
+    form = EdititemForm(request.form)
+    newitemname = form.newitemname.data
+    newquantity = form.newquantity.data
+    newprice = form.newprice.data
+    for shopping in shopping_list:
+        if shopping['lst'].shopping_items.item_id == int(item_id):
+            shopping['lst'].shopping_items.itemname = newitemname
+            shopping['lst'].shopping_items.quantity = newquantity
+            shopping['lst'].shopping_items.price = newprice
+            return redirect(url_for("dashboard"))
+    return render_template("dashboard.html", form=form)

@@ -62,7 +62,7 @@ class ItemsForm(Form):
                                  Regexp("^[A-Za-z0-9_-]+(\s+[A-Za-z0-9_-]+)*$",
                                         0,
                                         'Input should contain [A-Za-z0-9_-] spaces')])
-    quantity = StringField(
+    quantity = IntegerField(
         'Quantity', validators=[Length(1, 50),
                                 InputRequired(),
                                 DataRequired(),
@@ -79,7 +79,7 @@ class ItemsForm(Form):
     submit = SubmitField('Add')
 
 class EditlistForm(Form):
-    """Validation form for creating lists."""
+    """Validation form for editing lists."""
 
     newname = StringField(
         'New listname:', validators=[Length(3, 50),
@@ -89,3 +89,27 @@ class EditlistForm(Form):
                                             0,
                                             'Input should contain [A-Za-z0-9_-] spaces')])
                                             
+class EdititemForm(Form):
+    """Validation form for editing items."""
+
+    newitemname = StringField(
+        'New Item Name', validators=[Length(3, 50),
+                                     InputRequired(),
+                                     DataRequired(),
+                                     Regexp("^[A-Za-z0-9_-]+(\s+[A-Za-z0-9_-]+)*$",
+                                            0,
+                                            'Input should contain [A-Za-z0-9_-] spaces')])
+    newquantity = IntegerField(
+        'New Quantity', validators=[Length(1, 50),
+                                    InputRequired(),
+                                    DataRequired(),
+                                    Regexp("^[0-9]+(\s+[0-9]+)*$",
+                                           0,
+                                           'Input should contain [0-9] spaces')])
+    newprice = IntegerField(
+        'New Price(ksh)', validators=[Length(1, 50),
+                                      InputRequired(),
+                                      DataRequired(),
+                                      Regexp("^[0-9]+(\s+[0-9]+)*$",
+                                             0,
+                                             'Input should contain [0-9] spaces')])
