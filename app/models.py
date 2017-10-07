@@ -16,10 +16,11 @@ class User(object):
 class Shopping_list(User):
     """This class represents the shopping list class."""
 
-    def __init__(self, listname):
+    def __init__(self, listname, created_by):  # add created_by argument
         self.list_id = random.randrange(1, 1000, 1) 
         self.listname = listname
         self.shopping_items = []
+        self.created_by = created_by  # new attribute
   
 class Shopping_items(Shopping_list):
     """This class represents the shopping items class."""
