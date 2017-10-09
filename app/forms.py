@@ -17,23 +17,26 @@ class SignupForm(Form):
         'First Name:', validators=[Length(3, 50),
                                    InputRequired(),
                                    DataRequired(),
-                                   Regexp("^[A-Za-z_-]+( +[A-Za-z_-]+)*$",
+                                   Regexp("^[A-Za-z_-]*$",
                                           0,
-                                          'Input should contain [A-Za-z_-] spaces')])
+                                          'Input should only contain letters(\
+                                              both uppercase and lowercase) and no spaces')])
     lastname = StringField(
         'Last Name:', validators=[Length(3, 50),
                                   InputRequired(),
                                   DataRequired(),
-                                  Regexp("^[A-Za-z_-]+( +[A-Za-z_-]+)*$",
+                                  Regexp("^[A-Za-z_-]*$",
                                          0,
-                                         'Input should contain [A-Za-z_-] spaces')])
+                                         'Input should only contain letters(\
+                                             both uppercase and lowercase) and no spaces')])
     username = StringField(
         'User Name:', validators=[Length(3, 50),
                                   InputRequired(),
                                   DataRequired(),
-                                  Regexp("^[A-Za-z0-9_-]+( +[A-Za-z0-9_-]+)*$",
+                                  Regexp("^[A-Za-z0-9_-]*$",
                                          0,
-                                         'Input should contain [A-Za-z0-9_-] spaces')])
+                                         'Input should only contain letters(\
+                                             both uppercase and lowercase), digits and no spaces')])
     email = StringField('Email:', validators=[Email(), InputRequired()])
     password = PasswordField('Password:', validators=[Length(6, 50), InputRequired(), EqualTo(
         'con_password', message=(u'Your passwords should match.'))])
@@ -50,7 +53,8 @@ class ShoppinglistForm(Form):
                                           DataRequired(),
                                           Regexp("^[A-Za-z0-9_-]+( +[A-Za-z0-9_-]+)*$",
                                                  0,
-                                                 'Input should contain [A-Za-z0-9_-] spaces')])
+                                                 'Input should only contain letters(\
+                                             both uppercase and lowercase), digits and spaces')])
     submit = SubmitField('Create')
 
 class ItemsForm(Form):
@@ -62,21 +66,22 @@ class ItemsForm(Form):
                                  DataRequired(),
                                  Regexp("^[A-Za-z0-9_-]+( +[A-Za-z0-9_-]+)*$",
                                         0,
-                                        'Input should contain [A-Za-z0-9_-] spaces')])
+                                        'Input should only contain letters(\
+                                             both uppercase and lowercase), digits and spaces')])
     quantity = IntegerField(
         'Quantity', validators=[Length(1, 50),
                                 InputRequired(),
                                 DataRequired(),
                                 Regexp("^[0-9]+( +[0-9]+)*$",
                                        0,
-                                       'Input should contain [0-9] spaces')])
+                                       'Input should only contain letters digits and spaces')])
     price = IntegerField(
         'Price(ksh)', validators=[Length(1, 50),
                                   InputRequired(),
                                   DataRequired(),
                                   Regexp("^[0-9]+( +[0-9]+)*$",
                                          0,
-                                         'Input should contain [0-9] spaces')])
+                                         'Input should only contain letters digits and spaces')])
     submit = SubmitField('Add')
 
 class EditlistForm(Form):
@@ -88,7 +93,8 @@ class EditlistForm(Form):
                                      DataRequired(),
                                      Regexp("^[A-Za-z0-9_-]+( +[A-Za-z0-9_-]+)*$",
                                             0,
-                                            'Input should contain [A-Za-z0-9_-] spaces')])
+                                            'Input should only contain letters(\
+                                             both uppercase and lowercase), digits and spaces')])
 
 class EdititemForm(Form):
     """Validation form for editing items."""
@@ -99,18 +105,19 @@ class EdititemForm(Form):
                                      DataRequired(),
                                      Regexp("^[A-Za-z0-9_-]+( +[A-Za-z0-9_-]+)*$",
                                             0,
-                                            'Input should contain [A-Za-z0-9_-] spaces')])
+                                            'Input should only contain letters(\
+                                             both uppercase and lowercase), digits and spaces')])
     newquantity = IntegerField(
         'New Quantity', validators=[Length(1, 50),
                                     InputRequired(),
                                     DataRequired(),
                                     Regexp("^[0-9]+( +[0-9]+)*$",
                                            0,
-                                           'Input should contain [0-9] spaces')])
+                                           'Input should only contain letters digits and spaces')])
     newprice = IntegerField(
         'New Price(ksh)', validators=[Length(1, 50),
                                       InputRequired(),
                                       DataRequired(),
                                       Regexp("^[0-9]+( +[0-9]+)*$",
                                              0,
-                                             'Input should contain [0-9] spaces')])
+                                             'Input should only contain letters digits and spaces')])
