@@ -38,6 +38,17 @@
     {% endif %}
     {% endwith %}
     {% block body %}{% endblock %}
+
+    {% if form.errors %}
+    <ul class="errors" style="background-color: white; border: 1px solid red; border-radius: 10px;">
+        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+            {% for error in field_errors %}
+                <li>{{ form[field_name].label }}: {{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+    {% endif %}
+
     <div class="container-fluid">
         <div class="header">
             <div class="row">
@@ -50,9 +61,6 @@
         <div class="content">
             <div class="row">
                 <div class="col-md-12">
-                    {% for error in form.errors%}
-                    <div class="keb_error">{{error}}</div>
-                    {% endfor%}
                     <form method="POST" action="{{ url_for('signup')}}">
                     {{form.csrf_token}}
                     {{form.firstname.label}} {{form.firstname(placeholder="Firstname", class="form-control", id="firstname")}}
