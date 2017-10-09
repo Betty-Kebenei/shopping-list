@@ -1,82 +1,35 @@
-<!DOCTYPE html>
-<title>My Application</title>
+{% extends "layout.html" %}
+{% block title %}Signup for a shopping list account{% endblock %}
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/style.css') }}" />
+{% endblock %}
 
-<html lang="en">
-
-<head>
-    <title>Signup for a shopping list account</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-grid.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-grid.min.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-reboot.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-reboot.min.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/style.css') }}" />
-    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>   
-    <script src="{{ url_for('static', filename='js/jquery-3.2.1.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-
-</head>
-
-<body>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message }} alert-dismissable" role="alert" >
-            <button type="button" class="close" data-dismiss= "alert">&times;</button>
-            <p style="background-color:white; 
-            border:1px solid red;
-            border-radius: 10px;
-            min-height: 50px;
-            color: black">{{message}}</p>
-        </div>
-        {% endfor %}
-        
-    {% endif %}
-    {% endwith %}
-    {% block body %}{% endblock %}
-
-    {% if form.errors %}
-    <ul class="errors" style="background-color: white; border: 1px solid red; border-radius: 10px;">
-        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-            {% for error in field_errors %}
-                <li>{{ form[field_name].label }}: {{ error }}</li>
-            {% endfor %}
-        {% endfor %}
-    </ul>
-    {% endif %}
-
-    <div class="container-fluid">
-        <div class="header">
-            <div class="row">
-                <div class="col-md-12">
-                    <h6>Please fill in the form below to signup:</h6>
-                </div>
-            </div>
-        </div>
-
-        <div class="content">
-            <div class="row">
-                <div class="col-md-12">
-                    <form method="POST" action="{{ url_for('signup')}}">
-                    {{form.csrf_token}}
-                    {{form.firstname.label}} {{form.firstname(placeholder="Firstname", class="form-control", id="firstname")}}
-                    {{form.lastname.label}} {{form.lastname(placeholder="Lastname", class="form-control", id="lastname")}}
-                    {{form.username.label}} {{form.username(placeholder="Username", class="form-control", id="username")}}
-                    {{form.email.label}} {{form.email(placeholder="Email", class="form-control", id="email")}}
-                    {{form.password.label}} {{form.password(placeholder="Password", class="form-control", id="password")}}
-                    {{form.con_password.label}} {{form.con_password(placeholder="Password", class="form-control", id="password")}}
-                    {{form.submit(class="btn btn-success", style="float:right")}}
-                    </form>
-                    <br><br>
-                    <h6>Are you already signed up? If so, <a href="/login">Sign In</a></h6>
-                </div>
-            </div>
+{% block header %}
+<div class="header">
+    <div class="row">
+        <div class="col-md-12">
+            <h6>Please fill in the form below to signup:</h6>
         </div>
     </div>
-</body>
+</div>
+{% endblock %}
 
-</html>
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <form method="POST" action="{{ url_for('signup')}}">
+        {{form.csrf_token}}
+        {{form.firstname.label}} {{form.firstname(placeholder="Firstname", class="form-control", id="firstname")}}
+        {{form.lastname.label}} {{form.lastname(placeholder="Lastname", class="form-control", id="lastname")}}
+        {{form.username.label}} {{form.username(placeholder="Username", class="form-control", id="username")}}
+        {{form.email.label}} {{form.email(placeholder="Email", class="form-control", id="email")}}
+        {{form.password.label}} {{form.password(placeholder="Password", class="form-control", id="password")}}
+        {{form.con_password.label}} {{form.con_password(placeholder="Password", class="form-control", id="password")}}
+        {{form.submit(class="btn btn-success", style="float:right")}}
+        </form>
+        <br><br>
+        <h6>Are you already signed up? If so, <a href="/login">Sign In</a></h6>
+    </div>
+</div>
+{% endblock %}
