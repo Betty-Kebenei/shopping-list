@@ -34,7 +34,7 @@ def signup():
     """Enabling users to sign up."""
 
     form = SignupForm()
-    if form.validate_on_submit():
+    if request.method == 'POST' and form.validate_on_submit():
         firstname = form.firstname.data
         lastname = form.lastname.data
         username = form.username.data
@@ -72,7 +72,6 @@ def signin():
                     flash('Wrong password!')
             else:
                 flash('User not found!')
-        return redirect(url_for('dashboard'))
     return render_template("signin.html", form=form)
 
 @app.route('/logout')
