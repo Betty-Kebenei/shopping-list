@@ -19,11 +19,27 @@
 </head>
 
 <body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message }} alert-dismissable" role="alert" >
+            <button type="button" class="close" data-dismiss= "alert">&times;</button>
+            <p style="background-color:white; 
+            border:1px solid red;
+            border-radius: 10px;
+            min-height: 50px;
+            color: black">{{message}}</p>
+        </div>
+        {% endfor %}
+        
+    {% endif %}
+    {% endwith %}
+    {% block body %}{% endblock %}
     <div class="container-fluid">
         <div class="header">
             <div class="row">
                 <div class="col-md-12">
-                    <h1>Please enter your details to sign in into your 'shopping list account'.</h1>
+                    <h6>Please enter your details to sign in into your 'shopping list account'.</h6>
                 </div>
             </div>
         </div>
@@ -40,7 +56,7 @@
                     {{form.submit(class="btn btn-success", style="float:right")}}
                     </form>
                     <br><br>
-                    <h2>Don't have an account? <a href="/signup">Sign Up</a></h2>
+                    <h6>Don't have an account? <a href="/signup">Sign Up</a></h6>
                 </div>
             </div>
         </div>

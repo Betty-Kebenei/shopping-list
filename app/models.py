@@ -1,7 +1,6 @@
 import random
 users = []
 shopping_list = []
-shopping_items = []
 
 class User(object): 
     """This class represents the users class."""
@@ -14,17 +13,20 @@ class User(object):
         self.email = email
         self.password = password
 
-class Shopping_list(object):
+class Shopping_list(User):
     """This class represents the shopping list class."""
 
-    def __init__(self, listname):
+    def __init__(self, listname, created_by=None):
         self.list_id = random.randrange(1, 1000, 1) 
         self.listname = listname
+        self.shopping_items = []
+        self.created_by = created_by
   
 class Shopping_items(object):
     """This class represents the shopping items class."""
 
     def __init__(self, itemname, quantity, price):
+        self.item_id = random.randrange(1, 1000, 1)
         self.itemname = itemname
         self.quantity = quantity
         self.price = price

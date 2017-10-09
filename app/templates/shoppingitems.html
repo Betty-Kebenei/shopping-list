@@ -53,30 +53,64 @@
                         <hr>
                         <div class="row">
                             <div class="col-md-12">
-                                {% if shopping_items %}
+                                {% if shopping_list %}
+                                
                                 <ol>
-                                    {% for item in shopping_items  %}
+                                    {% for item in shopping_list  %}
+                                    {% if item.created_by == session.get('email')  %}
+                                    {% if item.list_id == (session.get('list_id'))%}
+                                    {% for i in item.shopping_items %}
+
                                     <li>
-                                        <div class="row">
-                                            <div class="col-md-3"><p>{{ item.itemname }}</p></div>
-                                            <div class="col-md-3"><p>{{ item.quantity }}</p></div>
-                                            <div class="col-md-3"><p>{{ item.price }}</p></div>
+                                        <div class="row"> 
+                                            <div class="col-md-3"><p>{{ i.itemname }}</p></div>
+                                            <div class="col-md-3"><p>{{ i.quantity }}</p></div>
+                                            <div class="col-md-3"><p>{{ i.price }}</p></div>
                                             <div class="col-md-3">
-                                                    <a href="/update_item" class="btn btn-primary update_list">Update</a>
-                                                    <a href="/del_item" class="btn btn-primary delete_list">Delete</a>
+                                                    <a href="/edit_item/{{ i.item_id }}" class="btn btn-primary update_item"
+                                                    data-toggle="modal" data-target="#{{ i.item_id }}myModal">Update</a>
+                                                    <a href="/del_item/{{ i.item_id }}" class="btn btn-primary delete_item">Delete</a>
+                                            </div>
+                                        </div>
+                                        <div id="{{ i.item_id }}myModal" class="modal fade" role="dialog">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">Edit Item</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form method="POST" action="/edit_item/{{ i.item_id }}">
+                                                            New Item name:
+                                                            <input type="text"  class="form-control" name="newitemname" >
+                                                            New Quantity:
+                                                            <input type="text"  class="form-control" name="newquantity" >
+                                                            New Price:
+                                                            <input type="text"  class="form-control" name="newprice" >
+                                                            <button type="submit" class="btn btn-success">Edit</button>
+                                                        </form> 
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <hr>
                                     </li>
                                     {% endfor %}
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endfor %}
                                 </ol>  
                                 {% endif %}
                             </div>
                         </div>
+
                         {% for error in form.errors%}
                         <div class="keb_error">{{error}}</div>
                         {% endfor%}
-                        <form method="POST" action="{{ url_for('shop_item')}}">
+                        <form method="POST" action="{{ url_for('add_item')}}">
                         {{form.csrf_token}}
                         <div class="row">
                             <div class="col-md-3">{{form.itemname.label}}</div>
@@ -111,10 +145,5 @@
         
     </body> 
 
-    
-
-            
-    
-    
     </html>
     
