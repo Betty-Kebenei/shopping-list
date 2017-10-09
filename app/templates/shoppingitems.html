@@ -57,8 +57,10 @@
                                 
                                 <ol>
                                     {% for item in shopping_list  %}
-                                    {% if item.get('owner') == session.get('email')  %}
-                                    {% for i in item.get('lst').shopping_items %}
+                                    {% if item.created_by == session.get('email')  %}
+                                    {% if item.list_id == (session.get('list_id'))%}
+                                    {% for i in item.shopping_items %}
+
                                     <li>
                                         <div class="row"> 
                                             <div class="col-md-3"><p>{{ i.itemname }}</p></div>
@@ -98,6 +100,7 @@
                                     </li>
                                     {% endfor %}
                                     {% endif %}
+                                    {% endif %}
                                     {% endfor %}
                                 </ol>  
                                 {% endif %}
@@ -107,7 +110,7 @@
                         {% for error in form.errors%}
                         <div class="keb_error">{{error}}</div>
                         {% endfor%}
-                        <form method="POST" action="{{ url_for('shop_item')}}">
+                        <form method="POST" action="{{ url_for('add_item')}}">
                         {{form.csrf_token}}
                         <div class="row">
                             <div class="col-md-3">{{form.itemname.label}}</div>
