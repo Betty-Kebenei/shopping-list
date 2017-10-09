@@ -100,7 +100,7 @@ def del_list(list_id):
     """Enabling users to delete shopping lists."""
 
     for items in shopping_list:
-        if items.list_id == int(list_id):
+        if items.list_id == list_id:
             shopping_list.remove(items)
             return redirect(url_for("dashboard"))
     return redirect(url_for("dashboard"))
@@ -112,7 +112,7 @@ def edit_list(list_id):
     form = EditlistForm(request.form)
     new_name = form.newname.data
     for items in shopping_list:
-        if items.list_id == int(list_id):
+        if items.list_id == list_id:
             items.listname = new_name
             return redirect(url_for("dashboard"))
     return render_template("dashboard.html", form=form)
@@ -132,7 +132,7 @@ def add_items(list_id):
 
     form = ItemsForm()
     for items in shopping_list:
-        if items.list_id == int(list_id):
+        if items.list_id == list_id:
             session["list_id"] = list_id
             return render_template("shoppingitems.html", form=form)
     return render_template("dashboard.html", form=form, shopping_list=shopping_list)
@@ -158,7 +158,7 @@ def add_item():
         price = form.price.data
         item = Shopping_items(itemname, quantity, price)
         for shopping in shopping_list:
-            if shopping.list_id == int(session['list_id']):
+            if shopping.list_id == session['list_id']:
                 shopping.shopping_items.append(item)
                 return render_template("shoppingitems.html", form=form, shopping_list=shopping_list)
     return redirect(url_for('shopping_items'))
