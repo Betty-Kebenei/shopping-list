@@ -3,4 +3,9 @@ body {
     margin: 10% 30%;
     }
 
+body ul.errors {
+    background-color: white;
+    border: 1px solid red;
+    border-radius: 10px;
+}
 
