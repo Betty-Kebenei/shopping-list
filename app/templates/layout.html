@@ -18,34 +18,35 @@
     {% endblock %}
   </head>
   <body>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message }} alert-dismissable" role="alert" >
-            <button type="button" class="close" data-dismiss= "alert">&times;</button>
-            <p style="background-color:white; 
-            border:1px solid red;
-            border-radius: 10px;
-            min-height: 50px;
-            color: black">{{message}}</p>
-        </div>
-        {% endfor %}
-            
-    {% endif %}
-    {% endwith %}
-    
-    {% if form.errors %}
-    <ul class="errors" style="background-color: white; border: 1px solid red; border-radius: 10px;">
-        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-            {% for error in field_errors %}
-                <li>{{ form[field_name].label }}: {{ error }}</li>
-            {% endfor %}
-        {% endfor %}
-    </ul>
-    {% endif %}
     <div class="container-fluid">
         <div class="header">{% block header %}{% endblock %}</div>
-        <div class="content">{% block content %}{% endblock %}</div>
+        <div class="content">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message }} alert-dismissable" role="alert" >
+                    <button type="button" class="close" data-dismiss= "alert">&times;</button>
+                    <p style="background-color:white; 
+                    border:1px solid red;
+                    border-radius: 10px;
+                    min-height: 50px;
+                    color: black">{{message}}</p>
+                </div>
+                {% endfor %}
+                    
+            {% endif %}
+            {% endwith %}
+            
+            {% if form.errors %}
+            <ul class="errors" style="background-color: white; border: 1px solid red; border-radius: 10px;">
+                {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                    {% for error in field_errors %}
+                        <li>{{ form[field_name].label }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% block content %}{% endblock %}</div>
         <div class="footer">{% block footer %}{% endblock %}</div>
     </div>
   </body>
