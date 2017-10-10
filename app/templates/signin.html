@@ -16,13 +16,31 @@
 {% endblock %}
 
 {% block content %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message }} alert-dismissable" role="alert" >
+        <button type="button" class="close" data-dismiss= "alert">&times;</button>
+        <p style="background-color:white; 
+        border:1px solid red;
+        border-radius: 10px;
+        min-height: 50px;
+        color: black">{{message}}</p>
+    </div>
+    {% endfor %}
+        
+{% endif %}
+{% endwith %}
+
 <div class="row">
     <div class="col-md-12">
+        {% from "_formhelpers.html" import render_field %}
         <form method="POST" action="{{ url_for('signin')}}">
         {{form.csrf_token}}
-        {{form.email.label}} {{form.email(placeholder="Email", class="form-control", id="email")}}
-        {{form.password.label}}{{form.password(placeholder="Password", class="form-control", id="password")}}
-        {{form.submit(class="btn btn-success", style="float:right")}}
+        {{ render_field(form.email, class='form-control', placeholder='Email@gmail.com') }}
+        {{ render_field(form.password, class='form-control') }}
+        {{form.submit(class="btn btn-warning btn-block")}}
         </form>
         <br><br>
         <h6>Don't have an account? <a href="/signup">Sign Up</a></h6>
