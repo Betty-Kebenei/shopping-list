@@ -17,7 +17,7 @@ class Shopping_list(User):
     """This class represents the shopping list class."""
 
     def __init__(self, listname, created_by=None):
-        self.list_id = random.randrange(1, 1000, 1) 
+        self.list_id = str(random.randrange(1, 1000, 1)).decode("utf-8")
         self.listname = listname
         self.shopping_items = []
         self.created_by = created_by

@@ -1,7 +1,8 @@
 # views.py
-from app.models import User, users, Shopping_list, shopping_list, Shopping_items
+
 from flask import session, render_template, redirect, request, url_for, flash
 from app import app
+from app.models import User, users, Shopping_list, shopping_list, Shopping_items
 from app.forms import LoginForm, SignupForm, ShoppinglistForm, ItemsForm, EditlistForm, EdititemForm
 
 def login_session(user):
@@ -21,7 +22,7 @@ def verify_login_session():
 @app.route('/dashboard')
 def dashboard():
     """Directs user to the dashboard."""
-     
+    
     if session["logged_in"] is True:
         form = ShoppinglistForm()
         return render_template("dashboard.html", form=form, shopping_list=shopping_list)
@@ -34,7 +35,7 @@ def signup():
     """Enabling users to sign up."""
 
     form = SignupForm()
-    if form.validate_on_submit():
+    if request.method == 'POST' and form.validate_on_submit():
         firstname = form.firstname.data
         lastname = form.lastname.data
         username = form.username.data
@@ -51,7 +52,7 @@ def signup():
         else:
             user = User(firstname, lastname, username, email, password)
             users.append(user)
-            return redirect(url_for('signin'))            
+            return redirect(url_for('signin'))
     return render_template("signup.html", form=form)
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -66,13 +67,12 @@ def signin():
             if user.email == email:
                 if user.password == password:
                     session["logged_in"] = True
-                    session["email"] =user.email
+                    session["email"] = user.email
                     return redirect(url_for('dashboard'))
                 else:
                     flash('Wrong password!')
             else:
                 flash('User not found!')
-        return redirect(url_for('dashboard'))
     return render_template("signin.html", form=form)
 
 @app.route('/logout')
@@ -89,7 +89,7 @@ def shop_list():
     form = ShoppinglistForm()
     if form.validate_on_submit():
         listname = form.listname.data
-        created_by =session.get('email')
+        created_by = session.get('email')
         s_list = Shopping_list(listname, created_by)
         shopping_list.append(s_list)
         return render_template("dashboard.html", form=form, shopping_list=shopping_list)
@@ -100,7 +100,7 @@ def del_list(list_id):
     """Enabling users to delete shopping lists."""
 
     for items in shopping_list:
-        if items.list_id == int(list_id):
+        if items.list_id == list_id:
             shopping_list.remove(items)
             return redirect(url_for("dashboard"))
     return redirect(url_for("dashboard"))
@@ -112,10 +112,10 @@ def edit_list(list_id):
     form = EditlistForm(request.form)
     new_name = form.newname.data
     for items in shopping_list:
-        if items.list_id == int(list_id):
+        if items.list_id == list_id:
             items.listname = new_name
             return redirect(url_for("dashboard"))
-    return render_template("dashboard.html", form=form)
+    return render_template("dashboard.html", form=form, shopping_list=shopping_list, new_name=new_name)
 
 @app.route('/view_lists', methods=['POST', 'GET'])
 def view_lists():
@@ -132,7 +132,7 @@ def add_items(list_id):
 
     form = ItemsForm()
     for items in shopping_list:
-        if items.list_id == int(list_id):
+        if items.list_id == list_id:
             session["list_id"] = list_id
             return render_template("shoppingitems.html", form=form)
     return render_template("dashboard.html", form=form, shopping_list=shopping_list)
@@ -140,12 +140,12 @@ def add_items(list_id):
 @app.route('/shopping_items')
 def shopping_items():
     """Directs user to the shopping items page."""
-     
+    
     if session["logged_in"] is True:
         form = ItemsForm()
         return render_template("shoppingitems.html", form=form, shopping_list=shopping_list)
     else:
-        return redirect(url_for('signin'))   
+        return redirect(url_for('signin'))
 
 @app.route('/add_item', methods=['POST', 'GET'])
 def add_item():
@@ -158,7 +158,7 @@ def add_item():
         price = form.price.data
         item = Shopping_items(itemname, quantity, price)
         for shopping in shopping_list:
-            if shopping.list_id == int(session['list_id']):
+            if shopping.list_id == session['list_id']:
                 shopping.shopping_items.append(item)
                 return render_template("shoppingitems.html", form=form, shopping_list=shopping_list)
     return redirect(url_for('shopping_items'))

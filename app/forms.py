@@ -1,6 +1,6 @@
 from flask_wtf import Form
 from wtforms import StringField, SubmitField, PasswordField, IntegerField
-from wtforms.validators import Length, Email, InputRequired, DataRequired, Regexp, EqualTo
+from wtforms.validators import Length, Email, InputRequired, DataRequired, Regexp, EqualTo, Optional
 
 
 class LoginForm(Form):
@@ -14,30 +14,36 @@ class SignupForm(Form):
     """Validation form for signing up."""
 
     firstname = StringField(
-        'First Name:', validators=[Length(3, 50),
+        'First Name:', validators=[Length(3, 25),
                                    InputRequired(),
                                    DataRequired(),
-                                   Regexp("^[A-Za-z_-]+( +[A-Za-z_-]+)*$",
+                                   Regexp("^[A-Za-z_-]*$",
                                           0,
-                                          'Input should contain [A-Za-z_-] spaces')])
+                                          'Input should only contain letters(\
+                                              both uppercase and lowercase) and no spaces')])
     lastname = StringField(
-        'Last Name:', validators=[Length(3, 50),
+        'Last Name:', validators=[Length(3, 25),
                                   InputRequired(),
                                   DataRequired(),
-                                  Regexp("^[A-Za-z_-]+( +[A-Za-z_-]+)*$",
+                                  Regexp("^[A-Za-z_-]*$",
                                          0,
-                                         'Input should contain [A-Za-z_-] spaces')])
+                                         'Input should only contain letters(\
+                                             both uppercase and lowercase) and no spaces')])
     username = StringField(
-        'User Name:', validators=[Length(3, 50),
+        'User Name:', validators=[Length(3, 25),
                                   InputRequired(),
                                   DataRequired(),
-                                  Regexp("^[A-Za-z0-9_-]+( +[A-Za-z0-9_-]+)*$",
+                                  Regexp("^[A-Za-z0-9_-]*$",
                                          0,
-                                         'Input should contain [A-Za-z0-9_-] spaces')])
+                                         'Input should only contain letters(\
+                                             both uppercase and lowercase), digits and no spaces')])
     email = StringField('Email:', validators=[Email(), InputRequired()])
-    password = PasswordField('Password:', validators=[Length(6, 50), InputRequired(), EqualTo(
-        'con_password', message='Your passwords should match.')])
-    con_password = PasswordField('Confirm Password:', validators=[Length(6, 50), InputRequired()])
+    password = PasswordField('Password:', validators=[Length(6, 25), InputRequired(), EqualTo(
+        'con_password', message=(u'Your passwords should match.')), Regexp(
+            "^(?=.*?[A-Z]).*[0-9]",
+            0,
+            'Password should contain atleast one digit and atleast one uppercase letter')])
+    con_password = PasswordField('Repeat password')
     submit = SubmitField('Sign Up')
 
 
@@ -45,72 +51,76 @@ class ShoppinglistForm(Form):
     """Validation form for creating lists."""
 
     listname = StringField(
-        'Create a new list:', validators=[Length(3, 50),
+        'Create a new list:', validators=[Length(3, 25),
                                           InputRequired(),
                                           DataRequired(),
                                           Regexp("^[A-Za-z0-9_-]+( +[A-Za-z0-9_-]+)*$",
                                                  0,
-                                                 'Input should contain [A-Za-z0-9_-] spaces')])
+                                                 'Input should only contain letters(\
+                                             both uppercase and lowercase), digits and spaces')])
     submit = SubmitField('Create')
 
 class ItemsForm(Form):
     """Validation form for adding items."""
 
     itemname = StringField(
-        'Item Name', validators=[Length(3, 50),
+        'Item Name', validators=[Length(3, 25),
                                  InputRequired(),
                                  DataRequired(),
                                  Regexp("^[A-Za-z0-9_-]+( +[A-Za-z0-9_-]+)*$",
                                         0,
-                                        'Input should contain [A-Za-z0-9_-] spaces')])
+                                        'Input should only contain letters(\
+                                             both uppercase and lowercase), digits and spaces')])
     quantity = IntegerField(
-        'Quantity', validators=[Length(1, 50),
+        'Quantity', validators=[Length(1, 25),
                                 InputRequired(),
                                 DataRequired(),
                                 Regexp("^[0-9]+( +[0-9]+)*$",
                                        0,
-                                       'Input should contain [0-9] spaces')])
+                                       'Input should only contain letters digits and spaces')])
     price = IntegerField(
-        'Price(ksh)', validators=[Length(1, 50),
+        'Price(ksh)', validators=[Length(1, 25),
                                   InputRequired(),
                                   DataRequired(),
                                   Regexp("^[0-9]+( +[0-9]+)*$",
                                          0,
-                                         'Input should contain [0-9] spaces')])
+                                         'Input should only contain letters digits and spaces')])
     submit = SubmitField('Add')
 
 class EditlistForm(Form):
     """Validation form for editing lists."""
 
     newname = StringField(
-        'New listname:', validators=[Length(3, 50),
-                                     InputRequired(),
+        'New listname:', validators=[Length(3, 25),
+                                     Optional(strip_whitespace=True),
                                      DataRequired(),
                                      Regexp("^[A-Za-z0-9_-]+( +[A-Za-z0-9_-]+)*$",
                                             0,
-                                            'Input should contain [A-Za-z0-9_-] spaces')])
+                                            'Input should only contain letters(\
+                                             both uppercase and lowercase), digits and spaces')])
 
 class EdititemForm(Form):
     """Validation form for editing items."""
 
     newitemname = StringField(
-        'New Item Name', validators=[Length(3, 50),
+        'New Item Name', validators=[Length(3, 25),
                                      InputRequired(),
                                      DataRequired(),
                                      Regexp("^[A-Za-z0-9_-]+( +[A-Za-z0-9_-]+)*$",
                                             0,
-                                            'Input should contain [A-Za-z0-9_-] spaces')])
+                                            'Input should only contain letters(\
+                                             both uppercase and lowercase), digits and spaces')])
     newquantity = IntegerField(
-        'New Quantity', validators=[Length(1, 50),
+        'New Quantity', validators=[Length(1, 25),
                                     InputRequired(),
                                     DataRequired(),
                                     Regexp("^[0-9]+( +[0-9]+)*$",
                                            0,
-                                           'Input should contain [0-9] spaces')])
+                                           'Input should only contain digits and spaces')])
     newprice = IntegerField(
-        'New Price(ksh)', validators=[Length(1, 50),
+        'New Price(ksh)', validators=[Length(1, 25),
                                       InputRequired(),
                                       DataRequired(),
                                       Regexp("^[0-9]+( +[0-9]+)*$",
                                              0,
-                                             'Input should contain [0-9] spaces')])
+                                             'Input should only contain digits and spaces')])

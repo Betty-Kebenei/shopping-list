@@ -1,134 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-    
-    <head>
-        <title>shopping list</title>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
-            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
-            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-grid.css') }}" />
-            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-grid.min.css') }}" />
-            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-reboot.css') }}" />
-            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-reboot.min.css') }}" />
-            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/dashboard.css') }}" />
-            <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
-            <script src="{{ url_for('static', filename='js/jquery-3.2.1.js') }}"></script>
-            <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
-            <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>      
-    </head>
+{% extends "layout.html" %}
+{% block title %}shopping list{% endblock %}
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/dashboard.css') }}" />
+{% endblock %}
 
-    <body> 
-        <div class="container-fluid">
-            <div class="header">
-                <div class="row">
-                        <div class="col-md-10">
-                            <h1>Welcome to shopping list tracker</h1>
-                            
-                        </div>
-                        <div class="col-md-2">
-                            <a href="/logout">
-                                <button type="button" name="button" style="float:right">Sign Out</button>
-                            </a>       
-                        </div>
-                    </div>
-            </div>
-            
-            <div class="content">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1>My shopping lists:</h1>
-                        {% for error in form.errors%}
-                        <div class="keb_error">{{error}}</div>
-                        {% endfor%}
-                        <form method="POST" action="{{ url_for('shop_list')}}">
-                        {{form.csrf_token}}
-                        <div class="row">
-                            <div class="col-md-2">{{form.listname.label}}</div>
-                            <div class="col-md-6">{{form.listname(placeholder="Name of the new shopping list", class="form-control", id="create")}}</div>
-                            <div class="col-md-4">{{form.submit(class="btn btn-success")}}</div>
-                        </div>
-                        </form>                        
-                    </div>
-                </div>
-                <br><br>
-                <div class="row">
-                    <div class="col-md-2"><p><b>SHOPPING LIST ID</b></p></div>
-                    <div class="col-md-4"><p><b>SHOPPING LIST NAME</b></p></div>
-                    <div class="col-md-6"><p><b>ACTIONS</b></p></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        {% if shopping_list %}
-                            {% for item in shopping_list  %}
-                            <hr>
-                            <div class="row">
-                               {% if item.created_by == session.get('email')  %}
-                                <div class="col-md-2"><p >{{ item.list_id }}</p></div>
-                                <div class="col-md-4"><p >{{ item.listname }}</p></div>
-                                <div class="col-md-6">
-                                    <a href="/add_items/{{item.list_id}}" class="btn btn-primary view_items">Add</a>
-                                    <a href="/view_items/{{item.list_id}}" class="btn btn-primary view_items">View</a>
-                                    <a href="/edit_list/{{item.list_id}}" class="btn btn-primary update_list" 
-                                    data-toggle="modal" data-target="#{{item.list_id}}myModal">Update</a>
-                                    <a href="/del_list/{{item.list_id}}" class="btn btn-primary delete_list">Delete</a>
-                                    
-                                </div>
-                                {% endif %}
-                            </div>
-                            <div id="{{item.list_id}}myModal" class="modal fade" role="dialog">
-                                <div class="modal-dialog">
-                              
-                                  <!-- Modal content-->
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                      <h4 class="modal-title">Edit List</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form method="POST" action="/edit_list/{{item.list_id}}">
-                                            New list name:
-                                            <input type="text"  class="form-control" name="newname" >
-                                            <button type="submit" class="btn btn-success">Edit</button>
-                                        </form> 
-                                    </div>
-                                    <div class="modal-footer">
-                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    </div>
-                                  </div>
-                              
-                                </div>
-                              </div>
+{% block header %}
+<div class="row">
+    <div class="col-md-10">
+        <h1>Welcome to shopping list tracker</h1>
+    </div>
+    <div class="col-md-2">
+        <a href="/logout">
+            <button type="button" name="button" style="float:right">Sign Out</button>
+        </a>       
+    </div>
+</div>
+{% endblock %}
 
-                         
-                        {% endfor %} 
-                        {% endif %}
-                       
-        
-                    </div>
-                </div>
-               
-            </div>
-            
-
-            <div class="footer">
-                <div class="row">
-                    <div class="col-md-12">
-                            Copyright &copy; Betty
-                    </div>
-                </div>
-
-            </div>
-            
-                    
+{% block content %}   
+<div class="row">
+    <div class="col-md-12">
+        <h1>My shopping lists:</h1>
+        <form method="POST" action="{{ url_for('shop_list')}}">
+        {{form.csrf_token}}
+        <div class="row">
+            <div class="col-md-2">{{form.listname.label}}</div>
+            <div class="col-md-6">{{form.listname(placeholder="Name of the new shopping list", class="form-control", id="create", value="")}}</div>
+            <div class="col-md-4">{{form.submit(class="btn btn-success")}}</div>
         </div>
-        
-    </body> 
+        </form>                        
+    </div>
+</div>
+<br><br>
+<div class="row">
+    <div class="col-md-2"><p><b>SHOPPING LIST ID</b></p></div>
+    <div class="col-md-4"><p><b>SHOPPING LIST NAME</b></p></div>
+    <div class="col-md-6"><p><b>ACTIONS</b></p></div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        {% if shopping_list %}
+            {% for item in shopping_list  %}
+            <hr>
+            <div class="row">
+                {% if item.created_by == session.get('email')  %}
+                <div class="col-md-2"><p >{{ item.list_id }}</p></div>
+                <div class="col-md-4"><p >{{ item.listname }}</p></div>
+                <div class="col-md-6">
+                    <a href="/add_items/{{item.list_id}}" class="btn btn-primary view_items">Add</a>
+                    <a href="/view_items/{{item.list_id}}" class="btn btn-primary view_items">View</a> 
+                    <a href="/edit_list/{{item.list_id}}" class="btn btn-primary update_list" 
+                    data-toggle="modal" data-target="#{{item.list_id}}myModal">Update</a>
+                    <a href="/del_list/{{item.list_id}}" class="btn btn-primary delete_list">Delete</a>
+                    
+                </div>
+                {% endif %}
+            </div>
+            <div id="{{item.list_id}}myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Edit List</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="/edit_list/{{item.list_id}}">
+                            New list name:
+                            <input type="text"  class="form-control" name="newname" >
+                            <button type="submit" class="btn btn-success">Edit</button>
+                        </form> 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                    </div>
+                </div>
+            </div> 
+               
+        {% endfor %} 
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
 
-    
-
-            
-    
-    
-    </html>
-    
+{% block footer %}
+&copy; Copyright 2017 by Betty.
+{% endblock %}

@@ -3,4 +3,9 @@ body {
     margin: 10% 30%;
     }
 
+body .container-fluid .content form {
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+}
 
