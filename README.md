@@ -1,8 +1,10 @@
 https://s-list.herokuapp.com/
 
 [![Build Status](https://travis-ci.org/Betty-Kebenei/shopping-list.svg?branch=master)](https://travis-ci.org/Betty-Kebenei/shopping-list)
-
 [![Coverage Status](https://coveralls.io/repos/github/Betty-Kebenei/shopping-list/badge.svg?branch=master)](https://coveralls.io/github/Betty-Kebenei/shopping-list?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/d5a7a61c5df99432264d/maintainability)](https://codeclimate.com/github/Betty-Kebenei/shopping-list/maintainability)
+[![Test Coverage](https://codeclimate.com/github/codeclimate/codeclimate/badges/coverage.svg)](https://codeclimate.com/github/codeclimate/codeclimate/coverage)
+[![Issue Count](https://codeclimate.com/github/codeclimate/codeclimate/badges/issue_count.svg)](https://codeclimate.com/github/codeclimate/codeclimate)
 
 # Shopping-list Application
 
