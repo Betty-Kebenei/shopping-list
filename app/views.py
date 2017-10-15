@@ -5,6 +5,7 @@ from app import app
 from app.models import User, users, Shopping_list, shopping_list, Shopping_items
 from app.forms import LoginForm, SignupForm, ShoppinglistForm, ItemsForm, EditlistForm, EdititemForm
 
+
 def login_session(user):
     """Enabling users should have session."""
 
@@ -29,7 +30,6 @@ def dashboard():
     else:
         return redirect(url_for('signin'))
 
-@app.route('/')
 @app.route('/signup',methods=['POST', 'GET'])
 def signup():
     """Enabling users to sign up."""
@@ -55,6 +55,7 @@ def signup():
             return redirect(url_for('signin'))
     return render_template("signup.html", form=form)
 
+@app.route('/')
 @app.route('/login', methods=['POST', 'GET'])
 def signin():
     """Enabling users to sign in."""
