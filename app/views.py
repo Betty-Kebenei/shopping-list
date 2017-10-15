@@ -109,13 +109,14 @@ def del_list(list_id):
 def edit_list(list_id):
     """Enabling users to update shopping lists."""
 
-    form = EditlistForm(request.form)
-    new_name = form.newname.data
-    for items in shopping_list:
-        if items.list_id == list_id:
-            items.listname = new_name
-            return redirect(url_for("dashboard"))
-    return render_template("dashboard.html", form=form, shopping_list=shopping_list, new_name=new_name)
+    form = EditlistForm()
+    if form.validate_on_submit():
+        new_name = form.newname.data
+        for items in shopping_list:
+            if items.list_id == list_id:
+                items.listname = new_name
+                return redirect(url_for("dashboard"))
+    return render_template("dashboard.html", form=form, shopping_list=shopping_list)
 
 @app.route('/view_lists', methods=['POST', 'GET'])
 def view_lists():
@@ -169,9 +170,7 @@ def view_items(list_id):
 
     form = ItemsForm()
     for shopping in shopping_list:
-        for item in shopping.shopping_items:
-            if shopping.list_id == list_id:
-                return(item.itemname, item.quantity, item.price)
+        if shopping.list_id == list_id:
             return render_template("shoppingitems.html", form=form, shopping_list=shopping_list)
     return redirect(url_for('shopping_items'))
 

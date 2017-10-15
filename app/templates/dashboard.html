@@ -3,6 +3,20 @@
 {% block head %}
 {{ super() }}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/dashboard.css') }}" />
+<script>
+    $('#uform').click(function(event) {
+  event.preventDefault();
+  $.post(url, data=$('#editform').serialize(), function(data) {
+    if (data.status == 'ok') {
+      $('#myModal').modal('hide');
+      location.reload();
+    }
+    else {
+      $('#myModal .modal-content').html(data);
+    }
+  });
+})
+</script>
 {% endblock %}
 
 {% block header %}
@@ -34,8 +48,9 @@
 </div>
 <br><br>
 <div class="row">
+    <div class="col-md-1"></div>
     <div class="col-md-2"><p><b>SHOPPING LIST ID</b></p></div>
-    <div class="col-md-4"><p><b>SHOPPING LIST NAME</b></p></div>
+    <div class="col-md-3"><p><b>SHOPPING LIST NAME</b></p></div>
     <div class="col-md-6"><p><b>ACTIONS</b></p></div>
 </div>
 <div class="row">
@@ -45,8 +60,13 @@
             <hr>
             <div class="row">
                 {% if item.created_by == session.get('email')  %}
+                <div class="col-md-1">
+                    <div class="checkbox">
+                        <label><input type="Checkbox" value=""> </label>
+                    </div>   
+                </div>
                 <div class="col-md-2"><p >{{ item.list_id }}</p></div>
-                <div class="col-md-4"><p >{{ item.listname }}</p></div>
+                <div class="col-md-3"><p >{{ item.listname }}</p></div>
                 <div class="col-md-6">
                     <a href="/add_items/{{item.list_id}}" class="btn btn-primary view_items">Add</a>
                     <a href="/view_items/{{item.list_id}}" class="btn btn-primary view_items">View</a> 
@@ -65,7 +85,7 @@
                         <h4 class="modal-title">Edit List</h4>
                     </div>
                     <div class="modal-body">
-                        <form method="POST" action="/edit_list/{{item.list_id}}">
+                        <form id="editform" method="POST" action="/edit_list/{{item.list_id}}">
                             New list name:
                             <input type="text"  class="form-control" name="newname" >
                             <button type="submit" class="btn btn-success">Edit</button>

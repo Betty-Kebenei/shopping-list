@@ -4,7 +4,11 @@
   {% if field.errors %}
     <ul class=errors>
     {% for error in field.errors %}
-      <li>{{ error }}</li>
+      <li style="background-color:white; 
+      border:1px solid red;
+      border-radius: 10px;
+      min-height: 50px;
+      color: black">{{ error }}</li>
     {% endfor %}
     </ul>
   {% endif %}
