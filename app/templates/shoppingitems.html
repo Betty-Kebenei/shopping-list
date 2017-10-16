@@ -70,11 +70,11 @@
                                     <div class="modal-body">
                                         <form method="POST" action="/edit_item/{{ i.item_id }}">
                                             New Item name:
-                                            <input type="text"  class="form-control" name="newitemname" >
+                                            <input type="text"  class="form-control" name="newitemname" required>
                                             New Quantity:
-                                            <input type="text"  class="form-control" name="newquantity" >
+                                            <input type="text"  class="form-control" name="newquantity" required>
                                             New Price:
-                                            <input type="text"  class="form-control" name="newprice" >
+                                            <input type="text"  class="form-control" name="newprice" required>
                                             <button type="submit" class="btn btn-success">Edit</button>
                                         </form> 
                                     </div>
