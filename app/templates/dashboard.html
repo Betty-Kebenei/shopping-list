@@ -3,20 +3,7 @@
 {% block head %}
 {{ super() }}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/dashboard.css') }}" />
-<script>
-    $('#uform').click(function(event) {
-  event.preventDefault();
-  $.post(url, data=$('#editform').serialize(), function(data) {
-    if (data.status == 'ok') {
-      $('#myModal').modal('hide');
-      location.reload();
-    }
-    else {
-      $('#myModal .modal-content').html(data);
-    }
-  });
-})
-</script>
+
 {% endblock %}
 
 {% block header %}
@@ -32,21 +19,22 @@
 </div>
 {% endblock %}
 
-{% block content %}   
+{% block content %}  
 <div class="row">
-    <div class="col-md-12">
-        <h1>My shopping lists:</h1>
-        <form method="POST" action="{{ url_for('shop_list')}}">
-        {{form.csrf_token}}
-        <div class="row">
-            <div class="col-md-2">{{form.listname.label}}</div>
-            <div class="col-md-6">{{form.listname(placeholder="Name of the new shopping list", class="form-control", id="create", value="")}}</div>
-            <div class="col-md-4">{{form.submit(class="btn btn-success")}}</div>
+        <div class="col-md-12">
+            <h1>My shopping lists:</h1>
+            <form method="POST" action="{{ url_for('shop_list')}}">
+            {{form.csrf_token}}
+            <div class="row">
+                <div class="col-md-2">{{form.listname.label}}</div>
+                <div class="col-md-6">{{form.listname(placeholder="Name should only contain letters, digits and spaces; min-length: 3", class="form-control", id="create", value="" )}}</div>
+                <div class="col-md-4">{{form.submit(class="btn btn-success")}}</div>
+            </div>
+            </form>                        
         </div>
-        </form>                        
-    </div>
-</div>
-<br><br>
+    </div> 
+<br><br> 
+
 <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-2"><p><b>SHOPPING LIST ID</b></p></div>
@@ -61,8 +49,10 @@
             <div class="row">
                 {% if item.created_by == session.get('email')  %}
                 <div class="col-md-1">
-                    <div class="checkbox">
-                        <label><input type="Checkbox" value=""> </label>
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-primary activate">
+                            <input type="Checkbox" autocomplete="off" checked>
+                        </label>
                     </div>   
                 </div>
                 <div class="col-md-2"><p >{{ item.list_id }}</p></div>
@@ -85,9 +75,10 @@
                         <h4 class="modal-title">Edit List</h4>
                     </div>
                     <div class="modal-body">
-                        <form id="editform" method="POST" action="/edit_list/{{item.list_id}}">
+                        <form  method="POST" action="/edit_list/{{item.list_id}}">
                             New list name:
-                            <input type="text"  class="form-control" name="newname" >
+                            <input type="text"  class="form-control" name="newname" pattern="^[A-Za-z_-]+( +[A-Za-z_-]+)*{3}$"
+                            title="Input should only contain letters, underscores, hyphen and spaces">
                             <button type="submit" class="btn btn-success">Edit</button>
                         </form> 
                     </div>
@@ -102,6 +93,7 @@
         {% endif %}
     </div>
 </div>
+
 {% endblock %}
 
 {% block footer %}

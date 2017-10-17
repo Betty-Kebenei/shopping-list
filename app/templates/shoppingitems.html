@@ -45,12 +45,13 @@
                     {% for i in item.shopping_items %}
                     <li>
                         <div class="row">
-                            <div class="col-md-1">
-                                <div class="checkbox"><label>
-                                        <input type="Checkbox" value=""> 
-                                    </label>
-                                </div>   
-                            </div>
+                                <div class="col-md-1">
+                                        <div class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-primary activate">
+                                                <input type="Checkbox" autocomplete="off" checked>
+                                            </label>
+                                        </div>   
+                                    </div>
                             <div class="col-md-3"><p>{{ i.itemname }}</p></div>
                             <div class="col-md-3"><p>{{ i.quantity }}</p></div>
                             <div class="col-md-2"><p>{{ i.price }}</p></div>
@@ -70,11 +71,15 @@
                                     <div class="modal-body">
                                         <form method="POST" action="/edit_item/{{ i.item_id }}">
                                             New Item name:
-                                            <input type="text"  class="form-control" name="newitemname" >
+                                            <input type="text"  class="form-control" name="newitemname" 
+                                            pattern="^[A-Za-z_-]+( +[A-Za-z_-]+)*{3}$"
+                                            title="Input should only contain letters, underscores, hyphen and spaces: 3 being the min lenght">
                                             New Quantity:
-                                            <input type="text"  class="form-control" name="newquantity" >
+                                            <input type="text"  class="form-control" name="newquantity" 
+                                            pattern="[0-9]" title="Input should only contain digits" required>
                                             New Price:
-                                            <input type="text"  class="form-control" name="newprice" >
+                                            <input type="text"  class="form-control" name="newprice" 
+                                            pattern="[0-9]" title="Input should only contain digits" required>
                                             <button type="submit" class="btn btn-success">Edit</button>
                                         </form> 
                                     </div>
@@ -97,15 +102,15 @@
         <form method="POST" action="{{ url_for('add_item')}}">
         {{form.csrf_token}}
         <div class="row">
-            <div class="col-md-3">{{form.itemname.label}}</div>
+            <div class="col-md-4">{{form.itemname.label}}</div>
             <div class="col-md-3">{{form.quantity.label}}</div>
-            <div class="col-md-3">{{form.price.label}}</div>
+            <div class="col-md-2">{{form.price.label}}</div>
             <div class="col-md-3"></div>
         </div>
         <div class="row">
-                <div class="col-md-3">{{form.itemname(placeholder="Item Name", class="form-control", id="create", value="")}}</div>
-                <div class="col-md-3">{{form.quantity(placeholder="Quantity", class="form-control", id="quantity", value="")}}</div>
-                <div class="col-md-3">{{form.price(placeholder="Price", class="form-control", id="price", value="")}}</div>
+                <div class="col-md-4">{{form.itemname(placeholder="Name: a word (letters,digits,spaces, min-length: 3)", class="form-control", id="create", value="")}}</div>
+                <div class="col-md-3">{{form.quantity(placeholder="Quantity: a digit", class="form-control", id="quantity", value="")}}</div>
+                <div class="col-md-2">{{form.price(placeholder="Price: a digit", class="form-control", id="price", value="")}}</div>
                 <div class="col-md-3">{{form.submit(class="btn btn-success")}}</div>
             </div>
         </form>

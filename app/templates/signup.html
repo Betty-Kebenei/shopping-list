@@ -18,32 +18,16 @@
 
 {% block content %}
 
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-{{ message }} alert-dismissable" role="alert" >
-        <button type="button" class="close" data-dismiss= "alert">&times;</button>
-        <p style="background-color:white; 
-        border:1px solid red;
-        border-radius: 10px;
-        min-height: 50px;
-        color: black">{{message}}</p>
-    </div>
-    {% endfor %}
-        
-{% endif %}
-{% endwith %}
-
 <div class="row">
     <div class="col-md-12">
         {% from "_formhelpers.html" import render_field %}
         <form method="POST" action="{{ url_for('signup')}}">
         {{form.csrf_token}}
-        {{ render_field(form.firstname, class='form-control', placeholder='Firstname') }}
-        {{ render_field(form.lastname, class='form-control', placeholder='Lastname') }}
-        {{ render_field(form.username, class='form-control', placeholder='Username') }}
+        {{ render_field(form.firstname, class='form-control', placeholder='Firstname: letters and no spaces, min-length: 3') }}
+        {{ render_field(form.lastname, class='form-control', placeholder='Lastname: letters and no spaces, min-length: 3') }}
+        {{ render_field(form.username, class='form-control', placeholder='Username: letters, digits and no spaces, min-length: 3') }}
         {{ render_field(form.email, class='form-control', placeholder='Email@gmail.com') }}
-        {{ render_field(form.password, class='form-control') }}
+        {{ render_field(form.password, class='form-control', placeholder='Atleast one digit and one uppercase letter, min-length: 6') }}
         {{ render_field(form.con_password, class='form-control') }}
         {{form.submit(class="btn btn-warning btn-block", style="float:right")}}
         </form>
