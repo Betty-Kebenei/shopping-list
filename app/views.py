@@ -92,7 +92,14 @@ def shop_list():
         listname = form.listname.data
         created_by = session.get('email')
         s_list = Shopping_list(listname, created_by)
-        shopping_list.append(s_list)
+        if shopping_list:
+            for shoppinglist in shopping_list:
+                if shoppinglist.listname == listname:
+                    flash("A shopping list with such a name already exists.")
+                else:
+                    shopping_list.append(s_list)
+        else:
+            shopping_list.append(s_list)
         return render_template("dashboard.html", form=form, shopping_list=shopping_list)
     return redirect(url_for('dashboard'))
 
@@ -110,14 +117,13 @@ def del_list(list_id):
 def edit_list(list_id):
     """Enabling users to update shopping lists."""
 
-    form = EditlistForm()
-    if form.validate_on_submit():
-        new_name = form.newname.data
-        for items in shopping_list:
-            if items.list_id == list_id:
-                items.listname = new_name
-                return redirect(url_for("dashboard"))
-    return render_template("dashboard.html", form=form, shopping_list=shopping_list)
+    form = EditlistForm(request.form)
+    new_name = form.newname.data
+    for items in shopping_list:
+        if items.list_id == list_id:
+            items.listname = new_name
+            return redirect(url_for("dashboard"))
+    return render_template("dashboard.html",form= form, shopping_list=shopping_list)
 
 @app.route('/view_lists', methods=['POST', 'GET'])
 def view_lists():
@@ -158,10 +164,17 @@ def add_item():
         itemname = form.itemname.data
         quantity = form.quantity.data
         price = form.price.data
-        item = Shopping_items(itemname, quantity, price)
+        item = Shopping_items(itemname, quantity, price) 
         for shopping in shopping_list:
             if shopping.list_id == session['list_id']:
-                shopping.shopping_items.append(item)
+                if shopping.shopping_items:
+                    for items in shopping.shopping_items:
+                        if items.itemname == itemname:
+                            flash("An item with the same name exists in this list.")
+                        else:
+                            shopping.shopping_items.append(item)
+                else: 
+                    shopping.shopping_items.append(item)
                 return render_template("shoppingitems.html", form=form, shopping_list=shopping_list)
     return redirect(url_for('shopping_items'))
 
@@ -169,6 +182,7 @@ def add_item():
 def view_items(list_id):
     """Enabling users to view shopping items in a shopping list."""
 
+    session["list_id"] = list_id
     form = ItemsForm()
     for shopping in shopping_list:
         if shopping.list_id == list_id:
