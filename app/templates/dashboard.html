@@ -3,20 +3,7 @@
 {% block head %}
 {{ super() }}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/dashboard.css') }}" />
-<script>
-    $('#uform').click(function(event) {
-  event.preventDefault();
-  $.post(url, data=$('#editform').serialize(), function(data) {
-    if (data.status == 'ok') {
-      $('#myModal').modal('hide');
-      location.reload();
-    }
-    else {
-      $('#myModal .modal-content').html(data);
-    }
-  });
-})
-</script>
+
 {% endblock %}
 
 {% block header %}
@@ -85,7 +72,7 @@
                         <h4 class="modal-title">Edit List</h4>
                     </div>
                     <div class="modal-body">
-                        <form id="editform" method="POST" action="/edit_list/{{item.list_id}}">
+                        <form  method="POST" action="/edit_list/{{item.list_id}}">
                             New list name:
                             <input type="text"  class="form-control" name="newname" required>
                             <button type="submit" class="btn btn-success">Edit</button>
