@@ -45,12 +45,13 @@
                     {% for i in item.shopping_items %}
                     <li>
                         <div class="row">
-                            <div class="col-md-1">
-                                <div class="checkbox"><label>
-                                        <input type="Checkbox" value=""> 
-                                    </label>
-                                </div>   
-                            </div>
+                                <div class="col-md-1">
+                                        <div class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-primary activate">
+                                                <input type="Checkbox" autocomplete="off" checked>
+                                            </label>
+                                        </div>   
+                                    </div>
                             <div class="col-md-3"><p>{{ i.itemname }}</p></div>
                             <div class="col-md-3"><p>{{ i.quantity }}</p></div>
                             <div class="col-md-2"><p>{{ i.price }}</p></div>

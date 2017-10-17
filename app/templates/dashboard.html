@@ -49,8 +49,10 @@
             <div class="row">
                 {% if item.created_by == session.get('email')  %}
                 <div class="col-md-1">
-                    <div class="checkbox">
-                        <label><input type="Checkbox" value=""> </label>
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-primary activate">
+                            <input type="Checkbox" autocomplete="off" checked>
+                        </label>
                     </div>   
                 </div>
                 <div class="col-md-2"><p >{{ item.list_id }}</p></div>
