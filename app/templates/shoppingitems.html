@@ -101,15 +101,15 @@
         <form method="POST" action="{{ url_for('add_item')}}">
         {{form.csrf_token}}
         <div class="row">
-            <div class="col-md-3">{{form.itemname.label}}</div>
+            <div class="col-md-4">{{form.itemname.label}}</div>
             <div class="col-md-3">{{form.quantity.label}}</div>
-            <div class="col-md-3">{{form.price.label}}</div>
+            <div class="col-md-2">{{form.price.label}}</div>
             <div class="col-md-3"></div>
         </div>
         <div class="row">
-                <div class="col-md-3">{{form.itemname(placeholder="Item Name", class="form-control", id="create", value="")}}</div>
-                <div class="col-md-3">{{form.quantity(placeholder="Quantity", class="form-control", id="quantity", value="")}}</div>
-                <div class="col-md-3">{{form.price(placeholder="Price", class="form-control", id="price", value="")}}</div>
+                <div class="col-md-4">{{form.itemname(placeholder="Name: a word (letters,digits,spaces, 3 min length)", class="form-control", id="create", value="")}}</div>
+                <div class="col-md-3">{{form.quantity(placeholder="Quantity: a digit", class="form-control", id="quantity", value="")}}</div>
+                <div class="col-md-2">{{form.price(placeholder="Price: a digit", class="form-control", id="price", value="")}}</div>
                 <div class="col-md-3">{{form.submit(class="btn btn-success")}}</div>
             </div>
         </form>

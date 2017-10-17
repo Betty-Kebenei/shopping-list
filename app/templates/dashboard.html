@@ -19,21 +19,22 @@
 </div>
 {% endblock %}
 
-{% block content %}   
+{% block content %}  
 <div class="row">
-    <div class="col-md-12">
-        <h1>My shopping lists:</h1>
-        <form method="POST" action="{{ url_for('shop_list')}}">
-        {{form.csrf_token}}
-        <div class="row">
-            <div class="col-md-2">{{form.listname.label}}</div>
-            <div class="col-md-6">{{form.listname(placeholder="Name of the new shopping list", class="form-control", id="create", value="" )}}</div>
-            <div class="col-md-4">{{form.submit(class="btn btn-success")}}</div>
+        <div class="col-md-12">
+            <h1>My shopping lists:</h1>
+            <form method="POST" action="{{ url_for('shop_list')}}">
+            {{form.csrf_token}}
+            <div class="row">
+                <div class="col-md-2">{{form.listname.label}}</div>
+                <div class="col-md-6">{{form.listname(placeholder="Name should only contain letters, digits and spaces; with 3 as min length", class="form-control", id="create", value="" )}}</div>
+                <div class="col-md-4">{{form.submit(class="btn btn-success")}}</div>
+            </div>
+            </form>                        
         </div>
-        </form>                        
-    </div>
-</div>
-<br><br>
+    </div> 
+<br><br> 
+   
 <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-2"><p><b>SHOPPING LIST ID</b></p></div>
@@ -90,6 +91,7 @@
         {% endif %}
     </div>
 </div>
+
 {% endblock %}
 
 {% block footer %}
