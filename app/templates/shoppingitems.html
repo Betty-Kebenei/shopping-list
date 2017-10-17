@@ -70,11 +70,15 @@
                                     <div class="modal-body">
                                         <form method="POST" action="/edit_item/{{ i.item_id }}">
                                             New Item name:
-                                            <input type="text"  class="form-control" name="newitemname" required>
+                                            <input type="text"  class="form-control" name="newitemname" 
+                                            pattern="^[A-Za-z_-]+( +[A-Za-z_-]+)*{3}$"
+                                            title="Input should only contain letters, underscores, hyphen and spaces: 3 being the min lenght">
                                             New Quantity:
-                                            <input type="text"  class="form-control" name="newquantity" required>
+                                            <input type="text"  class="form-control" name="newquantity" 
+                                            pattern="[0-9]" title="Input should only contain digits" required>
                                             New Price:
-                                            <input type="text"  class="form-control" name="newprice" required>
+                                            <input type="text"  class="form-control" name="newprice" 
+                                            pattern="[0-9]" title="Input should only contain digits" required>
                                             <button type="submit" class="btn btn-success">Edit</button>
                                         </form> 
                                     </div>

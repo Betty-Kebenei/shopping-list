@@ -5,7 +5,6 @@ from app import app
 from app.models import User, users, Shopping_list, shopping_list, Shopping_items
 from app.forms import LoginForm, SignupForm, ShoppinglistForm, ItemsForm, EditlistForm, EdititemForm
 
-
 def login_session(user):
     """Enabling users should have session."""
 
@@ -118,12 +117,12 @@ def edit_list(list_id):
     """Enabling users to update shopping lists."""
 
     form = EditlistForm(request.form)
-    new_name = form.newname.data
+    new_name = form.newname
     for items in shopping_list:
         if items.list_id == list_id:
             items.listname = new_name
             return redirect(url_for("dashboard"))
-    return render_template("dashboard.html",form= form, shopping_list=shopping_list)
+    return redirect(url_for("dashboard"))
 
 @app.route('/view_lists', methods=['POST', 'GET'])
 def view_lists():

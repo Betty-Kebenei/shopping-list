@@ -27,7 +27,7 @@
         {{form.csrf_token}}
         <div class="row">
             <div class="col-md-2">{{form.listname.label}}</div>
-            <div class="col-md-6">{{form.listname(placeholder="Name of the new shopping list", class="form-control", id="create", value="")}}</div>
+            <div class="col-md-6">{{form.listname(placeholder="Name of the new shopping list", class="form-control", id="create", value="" )}}</div>
             <div class="col-md-4">{{form.submit(class="btn btn-success")}}</div>
         </div>
         </form>                        
@@ -74,7 +74,8 @@
                     <div class="modal-body">
                         <form  method="POST" action="/edit_list/{{item.list_id}}">
                             New list name:
-                            <input type="text"  class="form-control" name="newname" required>
+                            <input type="text"  class="form-control" name="newname" pattern="^[A-Za-z_-]+( +[A-Za-z_-]+)*{3}$"
+                            title="Input should only contain letters, underscores, hyphen and spaces">
                             <button type="submit" class="btn btn-success">Edit</button>
                         </form> 
                     </div>
