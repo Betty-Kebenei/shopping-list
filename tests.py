@@ -40,6 +40,13 @@ class ViewsTesting(TestBase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(u"Welcome to shopping list tracker", response.data)
 
+    def test_dashboard_fails(self):
+        """Test if one must have a session to access the dashboard page. """
+
+        res = app.test_client(self)
+        with self.assertRaises(KeyError):
+            res.get('/dashboard', content_type='html/text')
+
     def test_shoppingitems_page_loads(self):
         """Test if shopping items page loads """
 
@@ -50,6 +57,12 @@ class ViewsTesting(TestBase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(u"Item Name", response.data)
 
+    def test_shoppingitems_fails(self):
+        """Test if one must have a session to access shopping items page. """
+
+        res = app.test_client(self)
+        with self.assertRaises(KeyError):
+            res.get('/shopping_items', content_type='html/text')
 
     def test_logout(self):
         """Test if a user can log out."""
@@ -57,7 +70,8 @@ class ViewsTesting(TestBase):
         res = app.test_client(self)
         response = res.get('/logout', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(u"Please enter your details to sign in into your 'shopping list account'.", response.data)
+        self.assertIn(
+            u"Please enter your details to sign in into your 'shopping list account'.", response.data)
 
 
 class FormdataTesting(TestBase):
@@ -116,10 +130,10 @@ class FormdataTesting(TestBase):
 
         response = self.signup("Betty", "Kebenei", "Bk1", "kebz@gmail.com", "123456A", "aaaaa")
         self.assertIn(u"Your passwords should match.", response.data)
-    
+        
     def test_firstname_validation(self):
         """Test first name validation."""
-
+        
         response = self.signup("B", "Kebenei", "Bk1", "kebz@gmail.com", "123456A", "123456A")
         self.assertIn(u"Field must be between 3 and 25 characters long.", response.data) 
 
@@ -156,6 +170,13 @@ class FormdataTesting(TestBase):
         response = self.addlist("books")
         self.assertEqual(response.status_code, 200)
 
+    def test_list_creation_fails(self):
+        """Test creation of a shoppinglist fails if one is not signed up and logged in"""
+
+        res = app.test_client(self)
+        with self.assertRaises(KeyError):
+            res.post('/shop_list', data=dict(listname="books"), follow_redirects=True)
+
     def test_creation_validation(self):
         """A name consisting of @!#$%^ and other characters cannot make a shoppinglist name"""
 
@@ -172,6 +193,16 @@ class FormdataTesting(TestBase):
         self.addlist("books")
         response = self.additem("Python", 1, 3000)
         self.assertEqual(response.status_code, 200)
+
+    def test_item_creation_fails(self):
+        """Test adding of a shopping item fails if one is not logged in"""
+
+        res = app.test_client(self)
+        with self.assertRaises(KeyError):
+            res.post('/add_item', data=dict(
+            itemname="Python",
+            quantity=1,
+            price=3000), follow_redirects=True)
 
 class ModelsTesting(TestBase):
     """This class tests if list can be appended and deleted from."""
