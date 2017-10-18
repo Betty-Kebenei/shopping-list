@@ -23,11 +23,9 @@ def verify_login_session():
 def dashboard():
     """Directs user to the dashboard."""
     
-    if session["logged_in"] is True:
+    if not verify_login_session():
         form = ShoppinglistForm()
         return render_template("dashboard.html", form=form, shopping_list=shopping_list)
-    else:
-        return redirect(url_for('signin'))
 
 @app.route('/signup',methods=['POST', 'GET'])
 def signup():
@@ -63,16 +61,19 @@ def signin():
     if request.method == 'POST':
         email = form.email.data
         password = form.password.data
-        for user in users:
-            if user.email == email:
-                if user.password == password:
-                    session["logged_in"] = True
-                    session["email"] = user.email
-                    return redirect(url_for('dashboard'))
+        if users:
+            for user in users:
+                if user.email == email:
+                    if user.password == password:
+                        session["logged_in"] = True
+                        session["email"] = user.email
+                        return redirect(url_for('dashboard'))
+                    else:
+                        flash('Wrong password!')
                 else:
-                    flash('Wrong password!')
-            else:
-                flash('User not found!')
+                    flash('User not found!')
+        else:
+            flash('User not found.')
     return render_template("signin.html", form=form)
 
 @app.route('/logout')
@@ -148,11 +149,9 @@ def add_items(list_id):
 def shopping_items():
     """Directs user to the shopping items page."""
     
-    if session["logged_in"] is True:
+    if not verify_login_session():
         form = ItemsForm()
         return render_template("shoppingitems.html", form=form, shopping_list=shopping_list)
-    else:
-        return redirect(url_for('signin'))
 
 @app.route('/add_item', methods=['POST', 'GET'])
 def add_item():
