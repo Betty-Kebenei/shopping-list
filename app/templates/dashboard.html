@@ -10,6 +10,7 @@
 <div class="row">
     <div class="col-md-10">
         <h1>Welcome to shopping list tracker</h1>
+        <p>Let's help you keep tracking of your shopping lists.</p>
     </div>
     <div class="col-md-2">
         <a href="/logout">
@@ -36,25 +37,19 @@
 <br><br> 
 
 <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-2"><p><b>SHOPPING LIST ID</b></p></div>
-    <div class="col-md-3"><p><b>SHOPPING LIST NAME</b></p></div>
+    <div class="col-md-6"><p><b>SHOPPING LIST NAME</b></p></div>
     <div class="col-md-6"><p><b>ACTIONS</b></p></div>
 </div>
+<hr>
 <div class="row">
     <div class="col-md-12">
         {% if shopping_list %}
+        <ol>
             {% for item in shopping_list  %}
-            <hr>
+            {% if item.created_by == session.get('email')  %}
+            <li>
             <div class="row">
-                {% if item.created_by == session.get('email')  %}
-                <div class="col-md-1">
-                        <label class="btn btn-primary activate">
-                            <input type="Checkbox" autocomplete="off">
-                        </label>   
-                </div>
-                <div class="col-md-2"><p >{{ item.list_id }}</p></div>
-                <div class="col-md-3"><p >{{ item.listname }}</p></div>
+                <div class="col-md-6"><p >{{ item.listname }}</p></div>
                 <div class="col-md-6">
                     <a href="/add_items/{{item.list_id}}" class="btn btn-primary view_items">Add</a>
                     <a href="/view_items/{{item.list_id}}" class="btn btn-primary view_items">View</a> 
@@ -63,7 +58,6 @@
                     <a href="/del_list/{{item.list_id}}" class="btn btn-primary delete_list">Delete</a>
                     
                 </div>
-                {% endif %}
             </div>
             <div id="{{item.list_id}}myModal" class="modal fade" role="dialog">
                 <div class="modal-dialog">
@@ -76,7 +70,7 @@
                         <form  method="POST" action="/edit_list/{{item.list_id}}">
                             New list name:
                             <input type="text"  class="form-control" name="newname" pattern="^[A-Za-z_-]+( +[A-Za-z_-]+)*{3}$"
-                            title="Input should only contain letters, underscores, hyphen and spaces">
+                            title="Input should only contain letters, underscores, hyphen and spaces" required>
                             <button type="submit" class="btn btn-success">Edit</button>
                         </form> 
                     </div>
@@ -86,8 +80,11 @@
                     </div>
                 </div>
             </div> 
-               
-        {% endfor %} 
+            <hr>
+            </li>
+            {% endif %} 
+            {% endfor %} 
+        </ol>
         {% endif %}
     </div>
 </div>
