@@ -11,19 +11,16 @@ def login_session(user):
     session["email"] = user.email
     session["list_id"] = user.email.list_id
     session["logged_in"] = True
+    session.clear()
     return redirect(url_for('dashboard'))
-
-def verify_login_session():
-    """Ensuring users should have session."""
-
-    if not session["logged_in"]:
-        return redirect(url_for('signin'))
 
 @app.route('/dashboard')
 def dashboard():
     """Directs user to the dashboard."""
     
-    if not verify_login_session():
+    if not session["logged_in"]:
+        return redirect(url_for('signin'))
+    else:
         form = ShoppinglistForm()
         return render_template("dashboard.html", form=form, shopping_list=shopping_list)
 
@@ -94,10 +91,8 @@ def shop_list():
         s_list = Shopping_list(listname, created_by)
         if shopping_list:
             for shoppinglist in shopping_list:
-                if shoppinglist.listname == listname:
-                    flash("A shopping list with such a name already exists.")
-                else:
-                    shopping_list.append(s_list)
+                if not shoppinglist.listname == listname:
+                    shopping_list.append(s_list)      
         else:
             shopping_list.append(s_list)
         return render_template("dashboard.html", form=form, shopping_list=shopping_list)
@@ -149,7 +144,9 @@ def add_items(list_id):
 def shopping_items():
     """Directs user to the shopping items page."""
     
-    if not verify_login_session():
+    if not session["logged_in"]:
+        return redirect(url_for('signin'))
+    else:
         form = ItemsForm()
         return render_template("shoppingitems.html", form=form, shopping_list=shopping_list)
 
@@ -158,7 +155,7 @@ def add_item():
     """Enabling users to add shopping items to their shopping lists."""
 
     form = ItemsForm()
-    if request.method == 'POST':
+    if request.method == 'POST' and form.validate_on_submit():
         itemname = form.itemname.data
         quantity = form.quantity.data
         price = form.price.data
@@ -167,9 +164,7 @@ def add_item():
             if shopping.list_id == session['list_id']:
                 if shopping.shopping_items:
                     for items in shopping.shopping_items:
-                        if items.itemname == itemname:
-                            flash("An item with the same name exists in this list.")
-                        else:
+                        if not items.itemname == itemname:
                             shopping.shopping_items.append(item)
                 else: 
                     shopping.shopping_items.append(item)
