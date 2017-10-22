@@ -1,6 +1,6 @@
 from flask_wtf import Form
 from wtforms import StringField, SubmitField, PasswordField, IntegerField
-from wtforms.validators import Length, Email, InputRequired, DataRequired, Regexp, EqualTo, Optional
+from wtforms.validators import Length, Email, InputRequired, DataRequired, Regexp, EqualTo, Optional, NumberRange
 
 
 class LoginForm(Form):
@@ -72,19 +72,9 @@ class ItemsForm(Form):
                                         'Input should only contain letters(\
                                              both uppercase and lowercase), digits and spaces')])
     quantity = IntegerField(
-        'Quantity', validators=[Length(1, 25),
-                                InputRequired(),
-                                DataRequired(),
-                                Regexp("^[0-9]+( +[0-9]+)*$",
-                                       0,
-                                       'Input should only contain letters digits and spaces')])
+        'Quantity', validators=[NumberRange(min=1, max=None, message='%(min)d')])
     price = IntegerField(
-        'Price(ksh)', validators=[Length(1, 25),
-                                  InputRequired(),
-                                  DataRequired(),
-                                  Regexp("^[0-9]+( +[0-9]+)*$",
-                                         0,
-                                         'Input should only contain letters digits and spaces')])
+        'Price(ksh)', validators=[NumberRange(min=1, max=None, message='%(min)d')])
     submit = SubmitField('Add')
 
 class EditlistForm(Form):
@@ -111,16 +101,7 @@ class EdititemForm(Form):
                                             'Input should only contain letters(\
                                              both uppercase and lowercase), digits and spaces')])
     newquantity = IntegerField(
-        'New Quantity', validators=[Length(1, 25),
-                                    InputRequired(),
-                                    DataRequired(),
-                                    Regexp("^[0-9]+( +[0-9]+)*$",
-                                           0,
-                                           'Input should only contain digits and spaces')])
+        'New Quantity', validators=[NumberRange(min=1, max=None, message='%(min)d')])
     newprice = IntegerField(
-        'New Price(ksh)', validators=[Length(1, 25),
-                                      InputRequired(),
-                                      DataRequired(),
-                                      Regexp("^[0-9]+( +[0-9]+)*$",
-                                             0,
-                                             'Input should only contain digits and spaces')])
+        'New Price(ksh)', validators=[NumberRange(min=1, max=None, message='%(min)d')])
+        

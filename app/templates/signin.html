@@ -6,19 +6,23 @@
 {% endblock %}
 
 {% block header %}
-<div class="header">
-    <div class="row">
-        <div class="col-md-12">
-            <h6>Please enter your details to sign in into your 'shopping list account'.</h6>
-        </div>
+<div class="row">
+    <div class="col-md-10">
+        <h1>Welcome to shopping list tracker</h1>
+        <p>Let's help you keep tracking of your shopping lists.</p>
+    </div>
+    <div class="col-md-2">
+        <a href="/signup">
+            <button type="button" name="button" style="float:right">Sign Up</button>
+        </a> 
     </div>
 </div>
 {% endblock %}
-
 {% block content %}
-
 <div class="row">
     <div class="col-md-12">
+        <h6>Please enter your details to sign in into your 'shopping list account'.</h6>
+        <br>
         {% from "_formhelpers.html" import render_field %}
         <form method="POST" action="{{ url_for('signin')}}">
         {{form.csrf_token}}
@@ -26,8 +30,9 @@
         {{ render_field(form.password, class='form-control') }}
         {{form.submit(class="btn btn-warning btn-block")}}
         </form>
-        <br><br>
+        <br>
         <h6>Don't have an account? <a href="/signup">Sign Up</a></h6>
     </div>
 </div>
 {% endblock %}
+

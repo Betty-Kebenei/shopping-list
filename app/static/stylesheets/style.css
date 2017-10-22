@@ -1,6 +1,18 @@
+body .container-fluid .header{
+    background-color:blue;
+    color: white;
+    padding: 20px;
+    clear: left;
+    }    
+    
+body .container-fluid .content{
+    background-color: powderblue;
+    margin: 2.5% 30%;
+    color: black;
+    }
+    
 body {
     background-color: powderblue;
-    margin: 10% 30%;
     }
 
 body .container-fluid .content form {

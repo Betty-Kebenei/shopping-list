@@ -5,30 +5,17 @@ from app import app
 from app.models import User, users, Shopping_list, shopping_list, Shopping_items
 from app.forms import LoginForm, SignupForm, ShoppinglistForm, ItemsForm, EditlistForm, EdititemForm
 
+# Creating sessions.
 def login_session(user):
     """Enabling users should have session."""
 
     session["email"] = user.email
     session["list_id"] = user.email.list_id
     session["logged_in"] = True
+    session.clear()
     return redirect(url_for('dashboard'))
 
-def verify_login_session():
-    """Ensuring users should have session."""
-
-    if not session["logged_in"]:
-        return redirect(url_for('signin'))
-
-@app.route('/dashboard')
-def dashboard():
-    """Directs user to the dashboard."""
-    
-    if session["logged_in"] is True:
-        form = ShoppinglistForm()
-        return render_template("dashboard.html", form=form, shopping_list=shopping_list)
-    else:
-        return redirect(url_for('signin'))
-
+# Views on class User.
 @app.route('/signup',methods=['POST', 'GET'])
 def signup():
     """Enabling users to sign up."""
@@ -63,16 +50,19 @@ def signin():
     if request.method == 'POST':
         email = form.email.data
         password = form.password.data
-        for user in users:
-            if user.email == email:
-                if user.password == password:
-                    session["logged_in"] = True
-                    session["email"] = user.email
-                    return redirect(url_for('dashboard'))
+        if users:
+            for user in users:
+                if user.email == email:
+                    if user.password == password:
+                        session["logged_in"] = True
+                        session["email"] = user.email
+                        return redirect(url_for('dashboard'))
+                    else:
+                        flash('Wrong password!')
                 else:
-                    flash('Wrong password!')
-            else:
-                flash('User not found!')
+                    flash('User not found!')
+        else:
+            flash('User not found.')
     return render_template("signin.html", form=form)
 
 @app.route('/logout')
@@ -81,6 +71,17 @@ def logout():
 
     session["logged_in"] = False
     return redirect(url_for('signin'))
+
+# Views on class Shopping_list
+@app.route('/dashboard')
+def dashboard():
+    """Directs user to the dashboard."""
+    
+    if not session["logged_in"]:
+        return redirect(url_for('signin'))
+    else:
+        form = ShoppinglistForm()
+        return render_template("dashboard.html", form=form, shopping_list=shopping_list)
 
 @app.route('/shop_list', methods=['POST', 'GET'])
 def shop_list():
@@ -93,16 +94,14 @@ def shop_list():
         s_list = Shopping_list(listname, created_by)
         if shopping_list:
             for shoppinglist in shopping_list:
-                if shoppinglist.listname == listname:
-                    flash("A shopping list with such a name already exists.")
-                else:
-                    shopping_list.append(s_list)
+                if not shoppinglist.listname == listname:
+                    shopping_list.append(s_list)      
         else:
             shopping_list.append(s_list)
         return render_template("dashboard.html", form=form, shopping_list=shopping_list)
     return redirect(url_for('dashboard'))
 
-@app.route('/del_list/<list_id>', methods=['GET'])
+@app.route('/del_list/<list_id>', methods=['POST'])
 def del_list(list_id):
     """Enabling users to delete shopping lists."""
 
@@ -133,33 +132,31 @@ def view_lists():
         return redirect(url_for('shop_list'))
     return render_template("shoppingitems.html", form=form)
 
-@app.route('/add_items/<list_id>', methods=['POST', 'GET'])
-def add_items(list_id):
-    """Enabling users to view their shopping items."""
+# Views on class Shopping_items
+@app.route('/items/<list_id>', methods=['POST', 'GET'])
+def items(list_id):
+    """Enabling users to place the list_id into session so that an item will be added to a specific list."""
 
     form = ItemsForm()
-    for items in shopping_list:
-        if items.list_id == list_id:
-            session["list_id"] = list_id
-            return render_template("shoppingitems.html", form=form)
-    return render_template("dashboard.html", form=form, shopping_list=shopping_list)
+    session["list_id"] = list_id
+    return render_template("shoppingitems.html", form=form)
 
 @app.route('/shopping_items')
 def shopping_items():
     """Directs user to the shopping items page."""
     
-    if session["logged_in"] is True:
+    if not session["logged_in"]:
+        return redirect(url_for('signin'))
+    else:
         form = ItemsForm()
         return render_template("shoppingitems.html", form=form, shopping_list=shopping_list)
-    else:
-        return redirect(url_for('signin'))
 
 @app.route('/add_item', methods=['POST', 'GET'])
 def add_item():
     """Enabling users to add shopping items to their shopping lists."""
 
     form = ItemsForm()
-    if request.method == 'POST':
+    if request.method == 'POST' and form.validate_on_submit():
         itemname = form.itemname.data
         quantity = form.quantity.data
         price = form.price.data
@@ -168,9 +165,7 @@ def add_item():
             if shopping.list_id == session['list_id']:
                 if shopping.shopping_items:
                     for items in shopping.shopping_items:
-                        if items.itemname == itemname:
-                            flash("An item with the same name exists in this list.")
-                        else:
+                        if not items.itemname == itemname:
                             shopping.shopping_items.append(item)
                 else: 
                     shopping.shopping_items.append(item)
@@ -186,7 +181,7 @@ def view_items(list_id):
     for shopping in shopping_list:
         if shopping.list_id == list_id:
             return render_template("shoppingitems.html", form=form, shopping_list=shopping_list)
-    return redirect(url_for('shopping_items'))
+    return redirect(url_for('dashboard'))
 
 @app.route('/edit_item/<item_id>', methods=['POST'])
 def edit_item(item_id):
@@ -205,7 +200,7 @@ def edit_item(item_id):
                 return redirect(url_for("shopping_items"))
     return render_template("shoppingitems.html", form=form)
 
-@app.route('/del_item/<item_id>', methods=['GET'])
+@app.route('/del_item/<item_id>', methods=['POST'])
 def del_item(item_id):
     """Enabling users to delete a shopping item in a shopping list."""
 
@@ -215,3 +210,4 @@ def del_item(item_id):
                 shopping.shopping_items.remove(i)
                 return redirect(url_for("shopping_items"))
     return render_template("shoppingitems.html")
+
